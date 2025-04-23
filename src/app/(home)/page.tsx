@@ -9,7 +9,7 @@ export default function Home() {
     <div className="flex flex-col gap-y-4 p-1 m-1">
       <div>
 
-      <Button variant={"elevated"}> Hello World</Button>
+        <Button variant={"elevated"}> Hello World</Button>
       </div>
       <Input placeholder="Enter something"></Input>
       <Progress value={50}></Progress>
@@ -18,3 +18,5 @@ export default function Home() {
     </div>
   );
 }
+// moved page.tsx from src/app/page.tsx to src/app/(home)/page.tsx
+
