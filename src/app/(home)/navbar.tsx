@@ -2,10 +2,13 @@
 
 import { Poppins } from "next/font/google"
 import Link from "next/link"
+import { useState } from "react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { usePathname } from "next/navigation"
+import { NavbarSidebar } from "./navbar-sidebar"
+import { MenuIcon } from "lucide-react"
 
 const poppins = Poppins({
     subsets: ["latin"],
@@ -42,6 +45,8 @@ const navbarItems = [
 export const Navbar = () => {
     const pathname = usePathname();
     //A Client Component hook that lets you read the current URL's pathname.
+    const [open, setopen] = useState(false)
+
     return (
         <nav className="h-20 flex justify-between bg-white font-medium">
             <Link href="/" className="pl-6 flex items-center">
@@ -50,7 +55,14 @@ export const Navbar = () => {
                 </span>
             </Link>
 
+            <NavbarSidebar items={navbarItems} open={open} onOpenChange={setopen} />
+
+
+
+
+
             <div className=" pr-6 items-center justify-center gap-4 hidden lg:flex ">
+                {/* lgLflex means whenever it is only then div will have flex uptill then it will be hidden */}
                 {
                     navbarItems.map((Item) =>
                     (
@@ -71,9 +83,17 @@ export const Navbar = () => {
 
                 <Button asChild variant={"secondary"} className="bg-black text-white border-l border-t-0 border-b-0 border-r-0 px-12 h-full rounded-none hover:bg-pink-400 hover:text-black transition-colors text-lg">
                     <Link href={"/sign-up"}>
-                    Sign Up
+                        Sign Up
                     </Link>
                 </Button>
+            </div>
+
+            <div className="lg:hidden flex">
+                <Button variant={"ghost"} className="size-12 border-transparent bg-white" onClick={() => { setopen(true) }}>
+                    <MenuIcon />
+
+                </Button>
+
             </div>
         </nav>
     )

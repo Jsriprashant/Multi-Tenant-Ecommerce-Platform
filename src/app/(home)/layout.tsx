@@ -1,14 +1,17 @@
 import { Navbar } from "./navbar"
-
-interface Props{
+import { Footer } from "./footer"
+interface Props {
     children: React.ReactNode
 }
 
-function Layout({children}: Props) {
+function Layout({ children }: Props) {
     return (
-        <div>
+        <div className="flex flex-col min-h-screen">
             <Navbar />
-          {children}
+            <div className="flex-1 bg-[#f4f4f0]">
+                {children}
+            </div>
+            <Footer />
         </div>
     )
 }
