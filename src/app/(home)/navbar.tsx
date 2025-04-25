@@ -10,6 +10,9 @@ import { usePathname } from "next/navigation"
 import { NavbarSidebar } from "./navbar-sidebar"
 import { MenuIcon } from "lucide-react"
 
+// trying out useSidebar from shadcn/ui
+
+
 const poppins = Poppins({
     subsets: ["latin"],
     weight: ["700"]
@@ -46,6 +49,8 @@ export const Navbar = () => {
     const pathname = usePathname();
     //A Client Component hook that lets you read the current URL's pathname.
     const [open, setopen] = useState(false)
+
+
 
     return (
         <nav className="h-20 flex justify-between bg-white font-medium">
