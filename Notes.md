@@ -34,3 +34,7 @@ BUTTTTT.... that does not mean that the {childrens} in layout.txs will also clie
 One more thing, writing use client does not means that componet gets rendred at client, still it is rendredn in server only
 servers side rendering and server side compont both are differernt
 
+find out
+// what are sheet, sheet area,
+// use sidebar tool on shadcn
+// what is flex-1
