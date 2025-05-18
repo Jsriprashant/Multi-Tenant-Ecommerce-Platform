@@ -53,7 +53,7 @@ export const Navbar = () => {
 
 
     return (
-        <nav className="h-20 flex justify-between bg-white font-medium">
+        <nav className="h-20 flex justify-between bg-white font-medium border-b">
             <Link href="/" className="pl-6 flex items-center">
                 <span className={cn("text-5xl font-semibold", poppins.className)}>
                     funroad
@@ -61,9 +61,6 @@ export const Navbar = () => {
             </Link>
 
             <NavbarSidebar items={navbarItems} open={open} onOpenChange={setopen} />
-
-
-
 
 
             <div className=" pr-6 items-center justify-center gap-4 hidden lg:flex ">

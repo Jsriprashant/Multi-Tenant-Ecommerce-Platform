@@ -2,13 +2,15 @@
   "name": "multi-tenant-application",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "generate-payload": "payload generate:types",
-    "db:fresh": "payload migrate:fresh" 
+    "db:fresh": "payload migrate:fresh",
+    "db:seed": "node --loader ts-node/esm src/seed.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
@@ -78,6 +80,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
     "tailwindcss": "^4",
+    "ts-node": "^10.9.2",
     "tw-animate-css": "^1.2.6",
     "typescript": "^5"
   }

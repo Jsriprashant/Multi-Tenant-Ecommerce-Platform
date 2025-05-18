@@ -38,3 +38,38 @@ find out
 // what are sheet, sheet area,
 // use sidebar tool on shadcn
 // what is flex-1
+
+
+Some notes to create the categories field
+// i could do it with schadCN's Hovercard, but need to adjust the css 
+
+Antonio did it in a differnt way
+1) created Category collection using mongoDb --> refer to collections/Categories
+2) then we extracted teh data from the DB in the layout.tsx file and passed the whole data as prop to searchfilter component
+3) searchFilter component is defined in index.tsx 
+4) then we send the data to Categories compoent defined in Categories.tsx, this is where we display the Data
+5) but each category has subcategories, so on hover the subcategories should be displayed
+6) so we send the each Category data as prop to the CategoryDropdown compoent
+7) in category-dropdown we have defined the CategoryDropdown compoent
+8) we created a function getDropdown position(defined in use-dropdown-Position) to get the accurate position of where should the subcategory bar should be displayed, proper checks were done so that the subcategory bar does not get out of screen
+
+9) we send the position and the data to another compoent SubCategoryMenu defined in subcategory-menu.tsx where we sucessfully displayed the subcategories
+
+// go through each and every filename mentioned above so that i can get a clea understanding, as some intersting techniques are used 
+
+One beautiful concept of react rerendering from the file categories-sidebar.tsx file
+    what is the problem?
+        So we created a viewAll button and on clicking it we should see a sidebar with all the categories, so for the sidebar we created another component categories-sidebar.tsx.
+
+        In this component we have created 2 Usetates parentcategory and selectedcategory, parent category has the array of the subcategory that a parent category has when a parent category is selected
+        And the selected category has the parent category that is selected
+
+        now we have created a variable currentCategory which initially has the data (which came to)
+        const currentCategory = PreantCategory??data??[];
+
+        So i was wondering ki initially parent category is null so current cat has data, and in the component data is rendered usinf sheetcontent
+
+        but when we clicked on a parent category then how does the currentCategory gets updated as it was defined outside the funciton.
+    answer> So as parentCteegory is a usestate, so when ever we update the parentCategory then the whole component gets rendered so the currentcategory is recalculated using the new state. 
+
+        
