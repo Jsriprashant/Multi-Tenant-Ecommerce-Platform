@@ -1,5 +1,6 @@
 import { initTRPC } from '@trpc/server';
 import { cache } from 'react';
+import superjson from 'superjson';
 
 
 import configPromise from '@payload-config'
@@ -20,7 +21,7 @@ const t = initTRPC.create({
     /**
      * @see https://trpc.io/docs/server/data-transformers
      */
-    // transformer: superjson,
+    transformer: superjson,
 });
 // Base router and procedure helpers
 export const createTRPCRouter = t.router;
@@ -33,5 +34,5 @@ export const baseProcedure = t.procedure.use(async ({ next }) => {
 
     // Here, every procedure using baseProcedure gets a ctx object with a db property (your Payload CMS instance).
     // You can add authentication logic in your context or middleware.
-// For example, you could check a JWT token and add user to ctx
+    // For example, you could check a JWT token and add user to ctx
 });
