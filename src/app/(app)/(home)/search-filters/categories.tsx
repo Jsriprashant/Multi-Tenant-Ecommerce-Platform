@@ -2,16 +2,17 @@
 'use client'
 
 import { CategoryDropdown } from "./category-dropdown"
-import { CustomCategory } from "../types"
+
 import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { ListFilterIcon } from "lucide-react"
 
 import { CategoriesSidebar } from "./categories-sidebar"
+import { CategoriesGetManyOutput } from "@/modules/categories/types"
 
 interface props {
-    data: CustomCategory[]
+    data: CategoriesGetManyOutput
 }
 // import {
 //     HoverCard,
@@ -107,7 +108,7 @@ export const Categories = ({ data }: props) => {
             </div>
             {/* When a person click on view all then  a sidebar will open */}
 
-            <CategoriesSidebar open={isSidebarOpen} onOpenChange={setIsSidebarOpen} data={data} />
+            <CategoriesSidebar open={isSidebarOpen} onOpenChange={setIsSidebarOpen} />
 
         </div>
 
