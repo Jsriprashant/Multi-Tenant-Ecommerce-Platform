@@ -1,37 +1,46 @@
-import { CustomCategory } from "../types"
+'use client'
+// import { CustomCategory } from "../types"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useState } from "react"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { useTRPC } from "@/trpc/client"
+import { useQuery } from "@tanstack/react-query"
+import { CategoriesGetManyOutput } from "@/modules/categories/types"
 
 
 interface props {
     open: boolean,
     onOpenChange: (open: boolean) => void,
-    data: CustomCategory[]
+    // data: CustomCategory[]
 
 }
 
-export const CategoriesSidebar = ({ open, onOpenChange, data }: props) => {
+// export const CategoriesSidebar = ({ open, onOpenChange, data }: props) => {
 
+export const CategoriesSidebar = ({ open, onOpenChange }: props) => {
     const router = useRouter()
 
+    // here also we can fetch the data from the server directly
+    const trpc = useTRPC();
+    const { data } = useQuery(trpc.categories.getMany.queryOptions());
+
     //When you click a category with subcategories, it gets set to that category’s subcategories (an array). Controls which list of categories is currently shown in the sidebar.
-    const [parentCategories, setParentCategory] = useState<CustomCategory[] | null>(null)
+    const [parentCategories, setParentCategory] = useState<CategoriesGetManyOutput | null>(null)
 
 
     // When you click a category with subcategories, it gets set to that category (the one you clicked). Used to keep track of which parent category you’re currently viewing.
 
-    const [selectedCategories, setSelectedCategory] = useState<CustomCategory | null>(null)
+    const [selectedCategories, setSelectedCategory] = useState<CategoriesGetManyOutput[1] | null>(null)
 
     // if we have the parent categories then show those otherwise show root categories
 
     const currentCategory = parentCategories ?? data ?? [];
 
-    const handleCategoryClick = (category: CustomCategory) => {
+    const handleCategoryClick = (category: CategoriesGetManyOutput[1]) => {
         if (category.subcategories && category.subcategories.length > 0) {
-            setParentCategory(category.subcategories as CustomCategory[])
+            setParentCategory(category.subcategories as CategoriesGetManyOutput)
             setSelectedCategory(category)
         }
         else {

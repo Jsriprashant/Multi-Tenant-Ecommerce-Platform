@@ -72,4 +72,45 @@ One beautiful concept of react rerendering from the file categories-sidebar.tsx 
         but when we clicked on a parent category then how does the currentCategory gets updated as it was defined outside the funciton.
     answer> So as parentCteegory is a usestate, so when ever we update the parentCategory then the whole component gets rendered so the currentcategory is recalculated using the new state. 
 
-        
+#TRPC     
+RPC is short for "Remote Procedure Call". It is a way of calling functions on one computer (the server) from another computer (the client). With traditional HTTP/REST APIs, you call a URL and get a response. With RPC, you call a function and get a response.
+// HTTP/REST
+const res = await fetch('/api/users/1');
+const user = await res.json();
+// RPC
+const user = await api.users.getById({ id: 1 });
+
+While testing the api from page.tsx a strange thing happens
+when teh page.tsx was server component then we could directly use async await and fetch the data from the DB
+But when we made the component client based then it was showing error 
+WHy?
+as server compoents can directly talk to db, but client components must use fetch api to fetch the data from the server
+How it was resolved -> by adding this app/api/trpc/[trpc]/route.ts file 
+
+
+POINTS TO PONDER
+what is ctx in the C:\Users\KIIT\OneDrive\Desktop\WEB DEV\multi-tenant-application\src\trpc\init.ts 's base procedure
+
+STEPS on how trpc was intergrated in this project.
+1) Set up a router.
+    -> in trpc router is a set of functions or procedures that can be called from front end
+    ->we set up a router named categories in src\modules\categories\server\procedures.ts
+    -> this file has a router named categoriesRouter, which has a function named getMany which extracts the data from the DB and formats it and returns it
+
+2) After setting up all the routers we have to setup a server and combine all the router's definition in a single app router, so that we can get access to all the routres from anywhere
+    -> basically setting up a trpc server handler
+    -> we did this in src\trpc\routers\_app.ts
+
+3) Now we set a trpc client that knows how to call backend procedures, because internally it works by fetch only
+    -> src\trpc\client.tsx
+3.1) Now not only we can call the routers or procedures from client, but from server also, so we set a trpc server that knows hows to call procedures from server components
+    -> src\trpc\server.ts
+
+Now we are ready to use trpc or the procedures defined in components
+-> we have 2 ways for it, either we can fetch directly using server components using   
+    const queryClient = getQueryClient();
+    void queryClient.prefetchQuery(trpc.categories.getMany.queryOptions()) 
+    we can use the by this we can use async await 
+-> or we can use trpc hooks in the client components to call the server procedures or funcitons
+    const trpc = useTRPC();
+    const { data } = useQuery(trpc.categories.getMany.queryOptions());  
