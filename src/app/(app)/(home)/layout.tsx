@@ -2,6 +2,7 @@ import { Navbar } from "./navbar"
 import { Footer } from "./footer"
 import { SearchFilterLoading, SearchFilters } from "./search-filters"
 
+
 // import configPromise from '@payload-config'
 // import { getPayload } from 'payload'
 // import { Category } from "@/payload-types"
@@ -240,8 +241,10 @@ async function Layout({ children }: Props) {
 
             <div className="flex-1 bg-[#f4f4f0]">
                 {children}
+
             </div>
             <Footer />
+
         </div>
     )
 }

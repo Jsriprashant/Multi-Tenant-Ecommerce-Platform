@@ -114,3 +114,76 @@ Now we are ready to use trpc or the procedures defined in components
 -> or we can use trpc hooks in the client components to call the server procedures or funcitons
     const trpc = useTRPC();
     const { data } = useQuery(trpc.categories.getMany.queryOptions());  
+
+// ASk gpt for the explanation of the codes of trpc from this trpc.categories.getMany.queryOptions() call, to each file it goes.
+
+SETUP AUTHENTICATION
+some questions. what does prefetch do in src\app\(app)\(home)\navbar.tsx
+what is .mutation in src\modules\auth\server\procedures.ts
+how does req and res (data from frontend) comes to the procedures?
+what is zinfer from src\modules\auth\ui\views\sign-up-view.tsx?
+
+how can we write tailwind css outside of app folder, as tailwind needs to be configured manually on whre to look for tailwind css in tailwind.config.ts file?
+ANS-> In next JS they made a mechanism which automatically searches the whole codebase to fing tailwind css, so this is 
+
+why in src\modules\auth\ui\views\sign-up-view.tsx we are calling the onsubmit by form.handleSubmit(onSubmit)?
+so by this onsubmit funciton does not get called until unless zod performs it validation (which means zod checks from the input schema that if all the required inputs are present and all teh conditions are matched or not)
+
+// Now when we type username in sign-up page then the username validation is done on the spot. how?
+    to actively observe username we use form.watch
+        const username = form.watch('username')
+    actively watches the errors
+        const usernameErrors = form.formState.errors.username
+    has username only when usernameerors sre not present
+        const showPreview = username && !usernameError
+    
+then we just render this 
+ <FormDescription className={cn("hidden", showPreview && "block")}>
+    Your store will be available at {" "}
+    <strong>{username}</strong>
+</FormDescription>
+<FormMessage />
+
+Now still you have to press enter then only the message would show error as the form message, how to show errors in the username in realtime?
+
+we just put mode:'all'
+const form = useForm<z.infer<typeof registerSchema>>({
+        mode:"all",
+        resolver: zodResolver(registerSchema),
+        defaultValues: {
+            email: '',
+            password: '',
+            username: ''
+        }
+    })
+
+questions to ponder, how does errors get displayes as in <formMessage> component we hav'nt passed any usernameerror?
+
+How we send the form data to the server?
+    const trpc = useTRPC();
+    const register = useMutation(trpc.auth.register.mutationOptions())
+
+    // values are the form data in object form (same as the register schema)
+    const onSubmit = (values: z.infer<typeof registerSchema>) => {
+        register.mutate(values)
+    }
+
+Implementation of sign in in a different way, with rest cookies
+// why? -> as with the previous implementation we had to use a strict name for our auth_cookie which is 'payload-token' then only our cookies got saved.
+
+// now, we will be using rest api to login the user.
+-> by this we dont need to manually set the cookie, this will automatically set the cookie on login
+-> but we are not doing this.
+
+-> so we created a safer way to use trpc and generate cookies
+    created a generate cookie funciton src\modules\auth\utils.ts in this file
+    To generate the cookies safely we are using prefix in the  name: `${prefix}-token`, this is coming from payload itself
+
+// Now to ensure that we cannot go to login screen again after logging in
+    we created a server caller in the src\trpc\server.ts
+    then, we used this caller to call the session funciton directly from the server, by this we do not store anything on the cache (if we called the session from client then cache was mantained) src\app\(app)\(auth)\sign-in\page.tsx
+
+
+To ponder:
+-> why are we using invalidatequeries in src\modules\auth\ui\views\sign-in-view.tsx ??
+

@@ -1,10 +1,33 @@
 
 'use client'
+
+import { useTRPC } from "@/trpc/client";
+import { useQuery } from "@tanstack/react-query";
+
 // if the component is client then we have do use trpc it differently
 export default function Home() {
+
+  const trpc = useTRPC();
+  const { data } = useQuery(trpc.auth.session.queryOptions())
+
   return (
-    <div>Home</div>
+    <div>
+      {
+        // JSON.stringify(data, null, 2)
+        // this is the whole auth object that we got
+        // { "permissions": { "collections": { "media": { "fields": { "alt": { "read": true }, "updatedAt": { "read": true }, "createdAt": { "read": true }, "url": { "read": true }, "thumbnailURL": { "read": true }, "filename": { "read": true }, "mimeType": { "read": true }, "filesize": { "read": true }, "width": { "read": true }, "height": { "read": true }, "focalX": { "read": true }, "focalY": { "read": true } }, "read": true } } }, "user": null }
+
+        JSON.stringify(data?.user, null, 2)
+        // initially it will be null as there are no user and no sesssion is created for any user
+      }
+    </div>
   )
+
+
+
+
+
+
   // return (
   //   <div>
   //     <p>Is Loading:{`${categories.isLoading}`} </p>
