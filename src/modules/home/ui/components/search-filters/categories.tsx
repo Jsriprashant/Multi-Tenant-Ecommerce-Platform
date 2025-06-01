@@ -10,6 +10,7 @@ import { ListFilterIcon } from "lucide-react"
 
 import { CategoriesSidebar } from "./categories-sidebar"
 import { CategoriesGetManyOutput } from "@/modules/categories/types"
+import { useParams } from "next/navigation"
 
 interface props {
     data: CategoriesGetManyOutput
@@ -21,6 +22,9 @@ interface props {
 // } from "@/components/ui/hover-card"
 
 export const Categories = ({ data }: props) => {
+
+    const params = useParams()
+
     const containerRef = useRef<HTMLDivElement>(null)
     const measureRef = useRef<HTMLDivElement>(null)
     const viewAllRef = useRef<HTMLDivElement>(null)
@@ -29,7 +33,9 @@ export const Categories = ({ data }: props) => {
     const [isAnyHovered, setIsAnyHovered] = useState(false)
     const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
-    const activeCategory = 'all'
+    const currentCategory = params.category as string
+    // as on clicking the category the param gets set in the url, we extract the param from there and then set the active category
+    const activeCategory = currentCategory || 'all'
 
     // suppose we have 10 categories and we want to show only 5 categories in the navbar, so we will set the visibleCount to 5, and the rest of the categories will be hidden in a dropdown
     //so suppose a hidden category is active then we have to highlight the view all button, so we will check if the active category is in the hidden categories or not, if yes then we will highlight the view all button
@@ -99,7 +105,7 @@ export const Categories = ({ data }: props) => {
                 }
 
                 <div ref={viewAllRef} className="shrink-0">
-                    <Button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className={cn("h-11 px-4 bg-transparent border-transparent rounded-full hover:bg-white hover:border-primary text-black", isActiveCategoryHidden && !isAnyHovered && "bg-white border-primary")}>
+                    <Button variant={"elevated"} onClick={() => setIsSidebarOpen(!isSidebarOpen)} className={cn("h-11 px-4 bg-transparent border-transparent rounded-full hover:bg-white hover:border-primary text-black", isActiveCategoryHidden && !isAnyHovered && "bg-white border-primary")}>
                         View All
                         <ListFilterIcon className="ml-2" />
                     </Button>

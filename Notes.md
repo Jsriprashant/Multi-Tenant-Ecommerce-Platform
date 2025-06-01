@@ -187,3 +187,15 @@ Implementation of sign in in a different way, with rest cookies
 To ponder:
 -> why are we using invalidatequeries in src\modules\auth\ui\views\sign-in-view.tsx ??
 
+ANS) invalidateQueries is a function from React Query.
+It marks cached data as "stale" for a specific query (here, the session).
+This tells React Query to refetch the session data the next time it’s needed.
+
+Questions to ponder
+1) is it necessary to put subcategory inside category?
+-> becuse every subsequent page.tsx inside ([categories]) has access to the parent which means subcategories has access to page.tsx of categories but vice versa is not true
+
+
+2) what is the science of the dynamic router. how routing is being done?
+
+3) why a promise is required to extract params?, we added a promise in the props interface of [categories] and then extract the params by await

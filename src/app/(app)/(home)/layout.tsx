@@ -1,6 +1,6 @@
-import { Navbar } from "./navbar"
-import { Footer } from "./footer"
-import { SearchFilterLoading, SearchFilters } from "./search-filters"
+import { Navbar } from "@/modules/home/ui/components/navbar"
+import { Footer } from "@/modules/home/ui/components/footer"
+import { SearchFilterLoading, SearchFilters } from "@/modules/home/ui/components/search-filters"
 
 
 // import configPromise from '@payload-config'

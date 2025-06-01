@@ -1,0 +1,1 @@
+export const default_bg_color = "#F5F5F5"
