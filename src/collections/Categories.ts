@@ -3,6 +3,9 @@ import type { CollectionConfig } from 'payload'
 //This categoreies collection will be used to store the categories in the front end
 export const Categories: CollectionConfig = {
     slug: 'categories',
+    admin: {
+        useAsTitle: "name"
+    },
 
     fields: [
         {
@@ -39,7 +42,7 @@ export const Categories: CollectionConfig = {
             on: "parent",
             hasMany: true
         },
-        
+
 
 
 

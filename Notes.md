@@ -198,4 +198,33 @@ Questions to ponder
 
 2) what is the science of the dynamic router. how routing is being done?
 
-3) why a promise is required to extract params?, we added a promise in the props interface of [categories] and then extract the params by await
+3) why a promise is required to extract params?, we added a promise in the props interface of [categories] and then extract the params by await?
+4) while extracting data form url using useParams, why are we sure to use .category with it?
+
+// Evry answer to each question is present in copilot chat
+
+# Now we are defining the product collections
+    payload also takes care of image uploads to mongoDb and uptill now i guess no multer is required
+When opening localhost:3000/admin, and going to products category we will see that the options in the categories are in id form, beacuse by default only id is shown, to tacke that we added
+  admin: {
+        useAsTitle: "name"
+    },
+in the categories collection
+    Now you'll see that all also appears in the category option, so in future we will hard code a all button and remove it from the categories collection
+
+Pondering questions.
+    What is depth in the products procedures src\modules\products\server\procedures.ts
+    explain this
+        Where["category.slug"] = {
+                        equals: category.slug
+                                }
+
+    Why did we fetch the product in both product list and src\app\(app)\(home)\[category]\page.tsx??
+
+One trick i learned is
+   void queryClient.prefetchQuery(trpc.products.getMany.queryOptions({
+        category: subcategory,
+    }))
+now, in the getmanu funciton, our input is of name category, so we cannot pass subcategory to it so this is a way around to send subcategory with the name of the prop category
+
+// understand the src\modules\products\server\procedures.ts on how it is fetching the subcategories, and what if subcateogries are not present then?

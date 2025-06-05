@@ -94,6 +94,8 @@ export const Categories = ({ data }: props) => {
 
             {/* visible div */}
 
+            {/* TODO: hardcode a all button */}
+
             <div className="flex flex-nowrap items-center" ref={containerRef} onMouseEnter={() => setIsAnyHovered(true)} onMouseLeave={() => setIsAnyHovered(false)}>
 
                 {
