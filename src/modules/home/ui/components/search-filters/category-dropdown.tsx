@@ -33,7 +33,7 @@ export const CategoryDropdown = ({ category, isActive, isNavigationHovered }: pr
 
 
     const onMouseEnter = () => {
-        console.log("Subcategories:", category.subcategories)
+        // console.log("Subcategories:", category.subcategories)
         if (category.subcategories.length > 0) {
             setIsOpen(true)
         }

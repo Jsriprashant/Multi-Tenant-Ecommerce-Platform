@@ -228,3 +228,40 @@ One trick i learned is
 now, in the getmanu funciton, our input is of name category, so we cannot pass subcategory to it so this is a way around to send subcategory with the name of the prop category
 
 // understand the src\modules\products\server\procedures.ts on how it is fetching the subcategories, and what if subcateogries are not present then?
+
+
+One intresting problem that i encountered was
+now localhost:3000/favicon.ico (gets loaded automatically) and localhost:3000/business-and-money
+we can see that both are on the same level (as just inside app/(home)/[categories] router), so sometimes favicon.ico is treated as a category, which gives error as no categories are present which is favicon.ico
+// so we have resolved it by checking if the parentcaetogry exists or not in the src\modules\products\server\procedures.ts line number 47, if it exists then only where slug is populated otherwise its not
+
+// We are creating filtering component, to filter products based on price and other parameters
+// for that we are using nuqs package to help with frontend
+
+one more thing of usestate
+setIsOpen((current) => !current) , by using current we can directly set the stateVarisble without using the isOpen or any other things
+
+questions to Ponder:
+1) what is changeEvent in src\modules\products\ui\components\price-filter.tsx ??
+2) why are we using regex inside handleMinchange funciton, as it is already being done on the funciton above it ?
+3) what is this   const onChange = (key: keyof typeof filters, value: unknown) => {
+        setFilters({ ...filters, [key]: value })
+    } inside src\modules\products\ui\components\product-filters.tsx
+
+    
+4)  if (input.minPrice) {
+                where.minPrice = {
+                    ...where.price,
+                    greater_than_equal: input.minPrice
+                }
+                // these are price filters
+
+            }
+            if (input.maxPrice) {
+                where.minPrice = {
+                    ...where.price,
+                    less_than_equal: input.maxPrice
+                }
+
+            }
+why ...where.price is required?

@@ -18,7 +18,6 @@ export const authRouter = createTRPCRouter({
         const session = await ctx.db.auth({ headers })
         // now this ctx is comming from baseprocedure and db is the payload (see init.ts file src\trpc\init.ts)
         // payload has the auth functionality
-        console.log(session)
 
         return session
 
@@ -42,7 +41,7 @@ export const authRouter = createTRPCRouter({
         const existingData = foundUsername.docs[0];
 
         if (existingData) {
-            console.log("reached Here")
+           
             throw new TRPCError({ code: "BAD_REQUEST", message: "Username already taken" })
         }
 
