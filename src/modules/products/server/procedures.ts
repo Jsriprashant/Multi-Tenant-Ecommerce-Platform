@@ -1,7 +1,9 @@
 import { baseProcedure, createTRPCRouter } from "@/trpc/init";
 import z from 'zod'
-import type { Where } from 'payload'
+import type { Sort, Where } from 'payload'
 import { Category } from "@/payload-types";
+
+import { sortValues } from "../search-params";
 
 export const productsRouter = createTRPCRouter({
 
@@ -11,10 +13,24 @@ export const productsRouter = createTRPCRouter({
             category: z.string().nullable().optional(),
             minPrice: z.string().nullable().optional(),
             maxPrice: z.string().nullable().optional(),
+            tags: z.array(z.string()).nullable().optional(),
+            sort: z.enum(sortValues).nullable().optional(),
+
         }))
 
         .query(async ({ ctx, input }) => {
             const where: Where = {}
+
+            let sort: Sort = "-createdAt"
+
+            if (input.sort === 'trending') {
+                sort = "-createdAt"
+            } else if (input.sort === 'curated') {
+                sort = "-name"
+            }
+            else {
+                sort = "-updatedAt"
+            }
 
             if (input.minPrice && input.maxPrice) {
                 where.price = {
@@ -35,6 +51,12 @@ export const productsRouter = createTRPCRouter({
 
             }
 
+            if (input.tags && input.tags.length > 0) {
+                where["tags.name"] = {
+                    in: input.tags
+                }
+
+            }
 
             if (input.category) {
                 const categoriesData = await ctx.db.find({
@@ -81,8 +103,10 @@ export const productsRouter = createTRPCRouter({
                 // here pauload is renamed to db because we have added context of db to payload
                 collection: 'products',
                 depth: 1, // populate the image and the categories
-                sort: 'name', // sort by name in ascending order
-                where: where
+                sort: sort, // sort by name in ascending order
+                where: where,
+
+
             })
 
             return data

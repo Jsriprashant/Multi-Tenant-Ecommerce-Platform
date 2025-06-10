@@ -3,16 +3,26 @@
 import { useTRPC } from "@/trpc/client"
 import { useSuspenseQuery } from "@tanstack/react-query"
 
+import { useProductFilter } from "../../hooks/product-filter-hooks"
+
 interface Props {
     category?: string
 
 }
 
 export const ProductList = ({ category }: Props) => {
+
+    const [filters] = useProductFilter();
+    // we destructure the filters useProductFilter hooks
+
     const trpc = useTRPC()
 
     const { data } = useSuspenseQuery(trpc.products.getMany.queryOptions({
-        category
+        category,
+        ...filters
+        // we can pass the filters to the getmany funciton of products server procedure
+        // but we have to do prefetch also so that loading is instantaneoues
+
     }))
 
     return (

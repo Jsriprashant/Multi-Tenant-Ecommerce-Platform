@@ -248,20 +248,45 @@ questions to Ponder:
         setFilters({ ...filters, [key]: value })
     } inside src\modules\products\ui\components\product-filters.tsx
 
-    
-4)  if (input.minPrice) {
-                where.minPrice = {
-                    ...where.price,
-                    greater_than_equal: input.minPrice
-                }
-                // these are price filters
+Questions to Ponder
+what is create loader in src\modules\products\hooks\product-filter-hooks.ts?
+explain the code    const hasAnyValues = Object.entries(filters).some(([, value]) => {
+        if (typeof value === "string") {
+            return value !== ""
+        }
+        return value !== null
+    })
+in src\modules\products\ui\components\product-filters.tsx
 
+questions to ponder
+const { data } = useInfiniteQuery(trpc.tags.getMany.infiniteQueryOptions({
+        limit: DEFAULT_LIMIT
+    },
+        {
+            getNextPageParam: (lastPage) => {
+                return lastPage.docs.length > 0 ? lastPage.nextPage : undefined
             }
-            if (input.maxPrice) {
-                where.minPrice = {
-                    ...where.price,
-                    less_than_equal: input.maxPrice
-                }
+        }
 
-            }
-why ...where.price is required?
+    )) what is all this in src\modules\products\ui\components\tags-filter.tsx
+
+2) clear the doubt on Onchange, how it is working, and getting the value
+3)  what is this    .input(z.object({
+            cursor: z.number().default(1),
+            limit: z.number().default(DEFAULT_LIMIT)
+        })) src\modules\tags\server\procedures.ts
+        and why only using this cursor we can use infinitequeryOptions
+
+4) how does the data look in as we are using 2 maps
+ data?.pages.map((page) => (
+                        page.docs.map((tag) => (
+                            <div key={tag.id} className="flex items-center justify-between cursor-pointer" onClick={() => { }}>
+                                <p className="font-medium">
+                                    {tag.name}
+
+                                </p>
+                                <Checkbox checked={false} onCheckedChange={() => { }} className="" />
+
+                            </div>
+                        ))
+                    )) 
