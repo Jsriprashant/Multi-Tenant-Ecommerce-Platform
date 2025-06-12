@@ -290,3 +290,30 @@ const { data } = useInfiniteQuery(trpc.tags.getMany.infiniteQueryOptions({
                             </div>
                         ))
                     )) 
+
+Now we are creating the product card
+and we faced a problem 
+  <ProductCard imageUrl={product.image}
+  this imageUrl is giving a error, as in product collection this product.image is a media type (as image field has a relationship with media collection, and upload is set to true)
+   so we have to modify product procedure 
+   changes made
+            return {
+                ...data,
+                docs: data.docs.map((doc) => ({
+                    ...doc,
+                    image: doc.image as Media
+
+                }))
+            } 
+ask chat gpt to give example and understand what is hapenning here
+
+also find out how this   getNextPageParam: (lastPage) => {
+                return lastPage.docs.length > 0 ? lastPage.nextPage : undefined
+            }
+            works
+
+understand this also  data?.pages.flatMap((page) => page.docs).map((product) => (
+
+                    <ProductCard key={product.id} id={product.id} name={product.name} imageUrl={product.image?.url} authorUsername="jp" authorImageUrl={undefined} reviewRating={3} reviewCount={5} price={product.price} />
+                ))
+from src\modules\products\ui\components\products-list.tsx
