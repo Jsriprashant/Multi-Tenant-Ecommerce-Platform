@@ -14,7 +14,7 @@ import { useQuery } from "@tanstack/react-query"
 import Link from 'next/link'
 
 interface props {
-    disabled: boolean
+    disabled?: boolean | false
 
 }
 

@@ -10,6 +10,7 @@ import React from 'react'
 import type { SearchParams } from 'nuqs/server'
 // import { loadProductFilters } from '@/modules/products/hooks/product-filter-hooks'
 import { loadProductFilters } from '@/modules/products/search-params'
+import { DEFAULT_LIMIT } from '@/constants'
 
 
 interface Props {
@@ -32,9 +33,17 @@ async function Page({ params, searchParams }: Props) {
 
 
     const queryClient = getQueryClient()
-    void queryClient.prefetchQuery(trpc.products.getMany.queryOptions({
+    // void queryClient.prefetchQuery(trpc.products.getMany.queryOptions({
+    //     category,
+    //     ...filters
+    //     // now we need to prefetch the data with the filters so we have modified the src\modules\products\hooks\product-filter-hooks.ts
+    // }))
+    // now as in the components we are using infinite queries so we cannot usePrefetch we must use infinite predetch
+
+    void queryClient.prefetchInfiniteQuery(trpc.products.getMany.infiniteQueryOptions({
         category,
-        ...filters
+        ...filters,
+        limit: DEFAULT_LIMIT,
         // now we need to prefetch the data with the filters so we have modified the src\modules\products\hooks\product-filter-hooks.ts
     }))
 

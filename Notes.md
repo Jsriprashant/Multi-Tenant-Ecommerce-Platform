@@ -317,3 +317,29 @@ understand this also  data?.pages.flatMap((page) => page.docs).map((product) => 
                     <ProductCard key={product.id} id={product.id} name={product.name} imageUrl={product.image?.url} authorUsername="jp" authorImageUrl={undefined} reviewRating={3} reviewCount={5} price={product.price} />
                 ))
 from src\modules\products\ui\components\products-list.tsx
+
+now what is the difference between 
+ void queryClient.prefetchInfiniteQuery(trpc.products.getMany.infiniteQueryOptions({
+        ...filters,
+        category: subcategory,
+        limit: DEFAULT_LIMIT
+        // now we need to prefetch the data with the filters so we have modified the src\modules\products\hooks\product-filter-hooks.ts
+    }))
+     and this, we have jsut changed the order of the elements inside the object inside infiniteQueryOptions
+
+void queryClient.prefetchInfiniteQuery(trpc.products.getMany.infiniteQueryOptions({
+        category: subcategory,
+        ...filters,
+        limit: DEFAULT_LIMIT
+        // now we need to prefetch the data with the filters so we have modified the src\modules\products\hooks\product-filter-hooks.ts
+    }))
+
+MULTI TENECY (Payload's multi tenecy plugin)
+
+now at this instance if we go to the admin page by logging in as any user, we will see all the products even teh user who has not created those products will be able to see the products.
+
+So now we will make the website multi tenant, for that we have creteda a new collection tenet.ts
+
+To achieve multi Tenecy we have added Payload's multi tenant plugin, how does it work?
+It does so by adding a tenant field to all specified collections. Your front-end application can then query data by tenant. You must add the Tenants collection so you control what fields are available for each tenant.
+

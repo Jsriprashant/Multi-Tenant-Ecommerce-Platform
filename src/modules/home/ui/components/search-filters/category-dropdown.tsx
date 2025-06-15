@@ -6,7 +6,7 @@ import { useRef, useState } from "react"
 
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { useDropdownPosition } from "./use-dropdown-position"
+
 import { SubCategoryMenu } from "./subCategory-menu"
 
 
@@ -24,8 +24,6 @@ export const CategoryDropdown = ({ category, isActive, isNavigationHovered }: pr
     const [isOpen, setIsOpen] = useState(false)
     const dropdownRef = useRef<HTMLDivElement>(null)
 
-    const { getDropdownPosition } = useDropdownPosition(dropdownRef)
-    const dropdownPosition = getDropdownPosition()
     // one question how to decide at whoich positon we have open the dropdown
     // so we created another function for it
 
@@ -78,7 +76,7 @@ export const CategoryDropdown = ({ category, isActive, isNavigationHovered }: pr
 
             {/* we have passed the positon that we got from the getPosition funciton to subCategoryMenu compoent */}
 
-            <SubCategoryMenu category={category} position={dropdownPosition} isOpen={isOpen} />
+            <SubCategoryMenu category={category} isOpen={isOpen} />
         </div>
     )
 }

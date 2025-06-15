@@ -5,13 +5,13 @@ import { CategoriesGetManyOutput } from "@/modules/categories/types";
 
 interface props {
     category: CategoriesGetManyOutput[1],
-    position: { top: number, left: number },
+
     isOpen: boolean
 
 }
 
 
-export const SubCategoryMenu = ({ category, position, isOpen }: props) => {
+export const SubCategoryMenu = ({ category, isOpen }: props) => {
     if (!isOpen || !category.subcategories || category.subcategories.length === 0) {
         return null;
     }
@@ -19,7 +19,7 @@ export const SubCategoryMenu = ({ category, position, isOpen }: props) => {
     const backgroundColor = category.color || '#F5F5F5'
 
     return (
-        <div className="fixed z-100" style={{ top: position.top, left: position.left }}>
+        <div className="absolute z-100" style={{ top: '100%', left: '0' }}>
             <div className="h-3 w-60">
                 {/* An invisible bridge to maintain the hover */}
                 <div style={{ backgroundColor }} className=" w-60 m-2.5 text-black rounded-md border overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-x-[2px] -translate-y-[2px]">

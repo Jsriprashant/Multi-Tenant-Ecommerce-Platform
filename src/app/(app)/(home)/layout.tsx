@@ -10,6 +10,8 @@ import { SearchFilterLoading, SearchFilters } from "@/modules/home/ui/components
 import { getQueryClient, trpc } from "@/trpc/server"
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import { Suspense } from 'react';
+// import { Seed } from "@/seed";
+
 
 interface Props {
     children: React.ReactNode
@@ -151,8 +153,19 @@ interface Props {
 //         ],
 //     },
 // ]
+
 // funciton to insert the data manually in the DB
-// const seed = async (payload: CustomCategory[]) => {
+// const seed = async (payload) => {
+
+//     await payload.create({
+//         collection: "users",
+//         data: {
+//             email: "admin@demo.com",
+//             password: "demo",
+//             role: ["super-admin"],
+//             username: "admin",
+//         }
+//     })
 
 //     for (const category of categories) {
 //         const parentCategory = await payload.create({
@@ -185,6 +198,9 @@ interface Props {
 
 async function Layout({ children }: Props) {
     // this is another way to get the payload instance
+
+    // await Seed();
+
     const queryClient = getQueryClient();
     void queryClient.prefetchQuery(trpc.categories.getMany.queryOptions())
 

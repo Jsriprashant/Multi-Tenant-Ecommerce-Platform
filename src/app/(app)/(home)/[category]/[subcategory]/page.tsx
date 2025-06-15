@@ -3,6 +3,7 @@
 
 
 
+import { DEFAULT_LIMIT } from '@/constants'
 import { loadProductFilters } from '@/modules/products/search-params'
 import { ProductListView } from '@/modules/products/ui/views/product-list-view'
 import { getQueryClient, trpc } from '@/trpc/server'
@@ -25,9 +26,17 @@ async function Page({ params, searchParams }: Props) {
 
 
     const queryClient = getQueryClient()
-    void queryClient.prefetchQuery(trpc.products.getMany.queryOptions({
+    // void queryClient.prefetchQuery(trpc.products.getMany.queryOptions({
+    //     category: subcategory,
+    //     ...filters
+    //     // now we need to prefetch the data with the filters so we have modified the src\modules\products\hooks\product-filter-hooks.ts
+    // }))
+    // now as in the components we are using infinite queries so we cannot usePrefetch we must use infinite predetch
+
+    void queryClient.prefetchInfiniteQuery(trpc.products.getMany.infiniteQueryOptions({
+        ...filters,
         category: subcategory,
-        ...filters
+        limit: DEFAULT_LIMIT
         // now we need to prefetch the data with the filters so we have modified the src\modules\products\hooks\product-filter-hooks.ts
     }))
 
