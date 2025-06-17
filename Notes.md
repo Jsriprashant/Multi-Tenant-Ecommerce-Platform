@@ -343,3 +343,23 @@ So now we will make the website multi tenant, for that we have creteda a new col
 To achieve multi Tenecy we have added Payload's multi tenant plugin, how does it work?
 It does so by adding a tenant field to all specified collections. Your front-end application can then query data by tenant. You must add the Tenants collection so you control what fields are available for each tenant.
 
+// now we need to load the tenant's name in the product's card, as before we are passing the hardcoded values,
+// so traditiolnally we have to create a tenant field in the product collection to find out the about the tenant 
+// but as we used tenant plugin, it automatically gets done, which means tenant field gets added to every collection in which it is required ---> fint out if its true
+
+Ponder
+1) consoloe.log every data and see how it looks, you can console.log in src\modules\products\server\procedures.ts directly also
+
+ return tenant as Tenant & { image: Media | null } // src\modules\tenants\server\procedures.ts
+            // why we have to do this kind of return its because  payload's local api does not change typescript depending on the depth 
+
+   const handleUserClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        e.preventDefault()
+        e.stopPropagation()
+
+        router.push(generateTenantURL(tenantSlug))
+    }
+    why do we need stop propagation? src\modules\products\ui\components\product-card.tsx
+
+we made tenants and i need to understand how they work
+
