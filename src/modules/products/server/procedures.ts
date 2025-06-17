@@ -1,7 +1,7 @@
 import { baseProcedure, createTRPCRouter } from "@/trpc/init";
 import z from 'zod'
 import type { Sort, Where } from 'payload'
-import { Category, Media } from "@/payload-types";
+import { Category, Media, Tenant } from "@/payload-types";
 
 import { sortValues } from "../search-params";
 import { DEFAULT_LIMIT } from "@/constants";
@@ -18,6 +18,7 @@ export const productsRouter = createTRPCRouter({
             maxPrice: z.string().nullable().optional(),
             tags: z.array(z.string()).nullable().optional(),
             sort: z.enum(sortValues).nullable().optional(),
+            tenantSlug: z.string().nullable().optional()
 
         }))
 
@@ -59,6 +60,11 @@ export const productsRouter = createTRPCRouter({
                     in: input.tags
                 }
 
+            }
+            if (input.tenantSlug) {
+                where["tenant.slug"] = {
+                    equals: input.tenantSlug
+                }
             }
 
             if (input.category) {
@@ -105,7 +111,8 @@ export const productsRouter = createTRPCRouter({
             const data = await ctx.db.find({
                 // here pauload is renamed to db because we have added context of db to payload
                 collection: 'products',
-                depth: 1, // populate the image and the categories
+                depth: 2, // populate the image and the categories, and after adding multi tenant pulgin it populates tenant also depth 1 will load uptill here
+                //depth 2 will load the tenamt.image
                 sort: sort, // sort by name in ascending order
                 where: where,
                 limit: input.limit,
@@ -119,7 +126,12 @@ export const productsRouter = createTRPCRouter({
                 ...data,
                 docs: data.docs.map((doc) => ({
                     ...doc,
-                    image: doc.image as Media
+                    image: doc.image as Media,
+
+                    // this tenant is automatically added as we are using the multiTenantPlugin
+                    tenant: doc.tenant as Tenant & { image: Media | null }
+                    //
+
 
                 }))
             }

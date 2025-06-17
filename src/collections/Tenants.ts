@@ -19,7 +19,7 @@ export const Tenants: CollectionConfig = {
             // here admin means the person looking at the dashboard, or the user who has signed in 
         },
         {
-            // this is teh subdomain field, which the user's subdomain
+            // this is the subdomain field, which the user's subdomain
             name: "slug",
             required: true,
             type: "text",

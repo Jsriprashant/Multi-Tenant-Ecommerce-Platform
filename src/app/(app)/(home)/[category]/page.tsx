@@ -6,7 +6,6 @@ import { getQueryClient, trpc } from '@/trpc/server'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { ProductListView } from '@/modules/products/ui/views/product-list-view'
 
-import React from 'react'
 import type { SearchParams } from 'nuqs/server'
 // import { loadProductFilters } from '@/modules/products/hooks/product-filter-hooks'
 import { loadProductFilters } from '@/modules/products/search-params'
@@ -41,8 +40,8 @@ async function Page({ params, searchParams }: Props) {
     // now as in the components we are using infinite queries so we cannot usePrefetch we must use infinite predetch
 
     void queryClient.prefetchInfiniteQuery(trpc.products.getMany.infiniteQueryOptions({
-        category,
         ...filters,
+        category,
         limit: DEFAULT_LIMIT,
         // now we need to prefetch the data with the filters so we have modified the src\modules\products\hooks\product-filter-hooks.ts
     }))
