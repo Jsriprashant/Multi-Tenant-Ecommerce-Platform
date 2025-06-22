@@ -4,8 +4,9 @@ import Image from "next/image"
 
 import { StarIcon } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { generateTenantURL } from "@/lib/utils"
+import { formatCurrency, generateTenantURL } from "@/lib/utils"
 
+// Add real ratings
 
 interface Props {
     id: string,
@@ -31,7 +32,7 @@ export const ProductCard = ({ id, name, imageUrl, tenantSlug, tenantImageUrl, re
     }
 
     return (
-        <Link href={`/products/${id}`}>
+        <Link href={`${generateTenantURL(tenantSlug)}/products/${id}`}>
 
             <div className=" hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-shadow border rounded-md bg-white overflow-hidden h-full flex flex-col ">
                 <div className="relative aspect-square">
@@ -73,12 +74,7 @@ export const ProductCard = ({ id, name, imageUrl, tenantSlug, tenantImageUrl, re
                         <p className="text-sm font-medium">
                             {/* Rs.{price} we can do lie=ke this or */}
                             {
-                                new Intl.NumberFormat("en-us", {
-                                    style: "currency",
-                                    currency: "USD",
-                                    maximumFractionDigits: 0,
-
-                                }).format(price)
+                                formatCurrency(price)
                             }
                         </p>
 
