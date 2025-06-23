@@ -25,7 +25,7 @@ const Page = async ({ params }: Props) => {
 
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
-            <ProductView productId={productId} tenantslug={slug} />
+            <ProductView productId={productId} tenantSlug={slug} />
         </HydrationBoundary>
 
     )
