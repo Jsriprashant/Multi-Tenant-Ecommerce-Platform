@@ -18,7 +18,7 @@ export const useCart = (tenantSlug: string) => {
     }
 
     const clearTenantCart = () => {
-        clearCart(tenantSlug)   
+        clearCart(tenantSlug)
     }
 
     return {
@@ -32,3 +32,4 @@ export const useCart = (tenantSlug: string) => {
         totalItems: productIds.length,
     };
 }   
+
