@@ -1,7 +1,7 @@
 "use client"
 
 import { useTRPC } from "@/trpc/client"
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import { useCart } from "../../hooks/use-cart"
 import { useEffect } from "react"
 import { toast } from "sonner"
@@ -9,6 +9,8 @@ import { generateTenantURL } from "@/lib/utils"
 import { CheckoutItem } from "../components/checkout-item"
 import { CheckoutSidebar } from "../components/checkout-sidebar"
 import { InboxIcon, LoaderIcon } from "lucide-react"
+import { useCheckoutStates } from "../../hooks/use-checkout-states"
+import { useRouter } from "next/navigation"
 
 interface props {
     tenantSlug: string
@@ -17,7 +19,11 @@ interface props {
 
 export const CheckoutView = ({ tenantSlug }: props) => {
 
-    const { productIds, clearAllcarts, removeAProduct } = useCart(tenantSlug)
+    const router = useRouter()
+
+    const { productIds, removeAProduct, clearCart } = useCart(tenantSlug)
+
+    const [states, setStates] = useCheckoutStates()
 
     const trpc = useTRPC()
     const { data, error, isLoading } = useQuery(trpc.checkout.getProducts.queryOptions(
@@ -29,13 +35,43 @@ export const CheckoutView = ({ tenantSlug }: props) => {
 
     // now what if teh tenant deletes the product from store then, the product may still be in user's cart, which should not be allowed, so we clear the localStorage of the user
 
+    const purchase = useMutation(trpc.checkout.purchase.mutationOptions({
+        onMutate: () => {
+            setStates({ success: false, cancel: false })
+        },
+        // on sucess does not mean user has purchased the product sucessfully, it only means that sucesss link has been generated
+        onSuccess: (data) => { window.location.href = data.url },
+        onError: (error) => {
+            if (error.data?.code === "UNAUTHORIZED") {
+                //TODO: modify when subdomains are enabled
+                router.push("/sign-in")
+            }
+            toast.error(error.message)
+        }
+    }))
+
+    useEffect(() => {
+        if (states.success) {
+            setStates({ success: false, cancel: false })
+            clearCart()
+            // this is giveing error
+            // Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.
+
+            // somehow this when this clear cart runs then this useEffect is going into infinite loop
+
+            // if purchase is sucess we will clear the cart of the user
+            router.push("/products")
+            //TODO:Invalidate Library
+        }
+    }, [states.success, clearCart, router,setStates])
+
+
     useEffect(() => {
         if (error?.data?.code === 'NOT_FOUND') {
-
-            clearAllcarts()
+            clearCart()
             toast.warning("Invalid Products Found, Cart Cleared")
         }
-    }, [error, clearAllcarts])
+    }, [error, clearCart])
 
     if (isLoading) {
         return (
@@ -80,7 +116,7 @@ export const CheckoutView = ({ tenantSlug }: props) => {
                 </div>
 
                 <div className="lg:col-span-3">
-                    <CheckoutSidebar totalPrice={data?.totalPrice} onCheckout={() => { }} isCancelled={false} isPending={false} />
+                    <CheckoutSidebar totalPrice={data?.totalPrice} onPurchase={() => purchase.mutate({ tenantSlug, productIds })} isCancelled={states.cancel} disabled={purchase.isPending} />
                 </div>
 
             </div>
