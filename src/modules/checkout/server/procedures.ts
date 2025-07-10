@@ -97,6 +97,7 @@ export const checkoutRouter = createTRPCRouter({
                     enabled: true,
                 },
                 metadata: {
+                    // this is the meta data of the currently logged in customer/user who has buyed the product
                     userId: ctx.session.user?.id
                 } as CheckoutMetadata
 

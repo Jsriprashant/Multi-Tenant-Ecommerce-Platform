@@ -17,15 +17,13 @@ interface CartState {
     removeAProduct: (tenantSlug: string, productId: string) => void;
     clearCart: (tenantSlug: string) => void,
     clearAllcarts: () => void,
-    getCartByTenant: (tenantSlug: string) => string[]
-
-
+// removed getCartbytenant
 }
 
 export const useCartStore = create<CartState>()(
     // why a extra () was required here?
     persist(
-        (set, get) => ({
+        (set) => ({
             tenantCarts: {}, // initially tenantCart is empty
             addAProduct: (tenantSlug, productId) => set((state) => ({
                 tenantCarts: {
@@ -58,7 +56,6 @@ export const useCartStore = create<CartState>()(
             clearAllcarts: () => set(
                 { tenantCarts: {}, }
             ),
-            getCartByTenant: (tenantSlug) => get().tenantCarts[tenantSlug]?.productIds || []
 
         }),
         {

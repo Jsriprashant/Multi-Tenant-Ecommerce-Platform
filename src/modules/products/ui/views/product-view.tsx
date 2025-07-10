@@ -38,7 +38,6 @@ export const ProductView = ({ productId, tenantSlug }: Props) => {
     }))
 
 
-
     return (
         <div className="px-4 lg:px-12 py-10">
             <div className="border rounded-sm bg-white overflow-hidden">
@@ -122,7 +121,10 @@ export const ProductView = ({ productId, tenantSlug }: Props) => {
                             <div className="flex flex-col gap-4 p-6 border-b">
                                 <div className="flex flex-row items-center gap-2">
 
-                                    <CartButton productId={productId} tenantSlug={tenantSlug} />
+
+                                    <CartButton isPurchased={data.isPurchased} productId={productId} tenantSlug={tenantSlug} />
+
+
 
                                     <Button className="size-12 " variant={"elevated"} onClick={() => { }} disabled={false}>
                                         <LinkIcon />

@@ -3,6 +3,8 @@ import z from 'zod'
 import type { Sort, Where } from 'payload'
 import { Category, Media, Tenant } from "@/payload-types";
 
+import { headers as getHeaders } from "next/headers";
+
 import { sortValues } from "../search-params";
 import { DEFAULT_LIMIT } from "@/constants";
 import { TRPCError } from "@trpc/server";
@@ -15,6 +17,9 @@ export const productsRouter = createTRPCRouter({
         }))
 
         .query(async ({ ctx, input }) => {
+
+            const headers = await getHeaders()
+            const session = await ctx.db.auth({ headers })
 
             if (!input) {
                 throw new TRPCError({ code: "NOT_FOUND", message: "Please Provide teh correct Id" });
@@ -31,11 +36,44 @@ export const productsRouter = createTRPCRouter({
             //     limit: 1,
 
             // })
+
+
             const product = await ctx.db.findByID({
                 collection: "products",
                 id: input.id,
                 depth: 2,
             })
+
+            let isPurchased = false
+
+            if (session.user) {
+                const ordersData = await ctx.db.find({
+                    collection: "orders",
+                    limit: 1,
+                    pagination: false,
+                    where: {
+                        // a user that has purchased a specific product
+                        and: [
+                            {
+                                product: {
+                                    equals: input.id
+                                }
+                            },
+                            {
+                                user: {
+                                    equals: session.user.id
+                                }
+
+                            }
+                        ]
+                    }
+
+                })
+
+                // isPurchased = ordersData.totalDocs > 0 ? true : false
+                isPurchased = !!ordersData.docs[0]
+            }
+
 
             // return product
 
@@ -43,6 +81,7 @@ export const productsRouter = createTRPCRouter({
 
             return {
                 ...product,
+                isPurchased,
                 image: product.image as Media | null,
                 tenant: product.tenant as Tenant & { image: Media | null }
 

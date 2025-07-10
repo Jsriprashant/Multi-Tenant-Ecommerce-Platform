@@ -48,6 +48,7 @@ export async function POST(req: Request) {
             switch (event.type) {
                 case "checkout.session.completed":
 
+                    // this data is the cutomer who is buying the product, its his data
                     data = event.data.object as Stripe.Checkout.Session
 
                     if (!data.metadata?.userId) {
@@ -85,7 +86,7 @@ export async function POST(req: Request) {
                             collection: "orders",
                             data: {
                                 stripeCheckoutSessionId: data.id,
-                                user: user.id,
+                                user: user.id, // customer who buyed
                                 product: item.price.product.metadata.id,
                                 name: item.price.product.name
 

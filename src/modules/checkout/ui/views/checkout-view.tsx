@@ -22,6 +22,10 @@ export const CheckoutView = ({ tenantSlug }: props) => {
     const router = useRouter()
 
     const { productIds, removeAProduct, clearCart } = useCart(tenantSlug)
+    // we are extracting data by destructuring, this is the proper way
+
+    // but if we do  like this const cart = useCart(tenantSlug)
+    //cart.addProduct() -->  somethig like this, then this gives error as the memoization does not work in this way
 
     const [states, setStates] = useCheckoutStates()
 
@@ -31,6 +35,7 @@ export const CheckoutView = ({ tenantSlug }: props) => {
             ids: productIds,
         }
     ))
+
     // we are not using any prefetch suspence because the productIds are coming from local storage so no need to use prefectch, as prefetch is used only when.
 
     // now what if teh tenant deletes the product from store then, the product may still be in user's cart, which should not be allowed, so we clear the localStorage of the user
@@ -52,7 +57,7 @@ export const CheckoutView = ({ tenantSlug }: props) => {
 
     useEffect(() => {
         if (states.success) {
-            setStates({ success: false, cancel: false })
+            // setStates({ success: false, cancel: false })
             clearCart()
             // this is giveing error
             // Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.
@@ -63,7 +68,7 @@ export const CheckoutView = ({ tenantSlug }: props) => {
             router.push("/products")
             //TODO:Invalidate Library
         }
-    }, [states.success, clearCart, router,setStates])
+    }, [states.success, clearCart, router, setStates])
 
 
     useEffect(() => {
