@@ -1,7 +1,7 @@
 "use client"
 
 import { useTRPC } from "@/trpc/client"
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useCart } from "../../hooks/use-cart"
 import { useEffect } from "react"
 import { toast } from "sonner"
@@ -30,6 +30,9 @@ export const CheckoutView = ({ tenantSlug }: props) => {
     const [states, setStates] = useCheckoutStates()
 
     const trpc = useTRPC()
+
+    const queryClient = useQueryClient();
+
     const { data, error, isLoading } = useQuery(trpc.checkout.getProducts.queryOptions(
         {
             ids: productIds,
@@ -65,10 +68,15 @@ export const CheckoutView = ({ tenantSlug }: props) => {
             // somehow this when this clear cart runs then this useEffect is going into infinite loop
 
             // if purchase is sucess we will clear the cart of the user
-            router.push("/products")
             //TODO:Invalidate Library
+
+            queryClient.invalidateQueries(trpc.library.getMany.infiniteQueryFilter())
+
+            router.push("/library")
+            // we need to invalidate the query, so that if the userbuys a new product then it could refetched from the db
+
         }
-    }, [states.success, clearCart, router, setStates])
+    }, [states.success, clearCart, router, setStates, queryClient, trpc.library.getMany])
 
 
     useEffect(() => {
@@ -114,6 +122,7 @@ export const CheckoutView = ({ tenantSlug }: props) => {
                                 <CheckoutItem key={product.id} isLast={index === data.docs.length - 1} imageUrl={product.image?.url} name={product.name} productUrl={`${generateTenantURL(product.tenant.slug)}/products/${product.id}`} tenantUrl={generateTenantURL(product.tenant.slug)} tenantName={product.tenant.name} price={product.price} onRemove={() => { removeAProduct(product.id) }} />
                             ))
                         }
+                        
 
 
                     </div>
