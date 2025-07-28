@@ -7,14 +7,16 @@ import { Progress } from "@/components/ui/progress"
 import { formatCurrency, generateTenantURL } from "@/lib/utils"
 import { useTRPC } from "@/trpc/client"
 import { useSuspenseQuery } from "@tanstack/react-query"
-import { LinkIcon, StarIcon } from "lucide-react"
+import { CheckCheckIcon, LinkIcon, StarIcon } from "lucide-react"
 
 import Image from "next/image"
 import Link from "next/link"
-import { Fragment } from "react"
+import { Fragment, useState } from "react"
 // import { CartButton } from "../components/cart-button" 
 
 import dynamic from "next/dynamic"
+import { toast } from "sonner"
+
 
 const CartButton = dynamic(
     () => import("../components/cart-button").then((mod) => mod.CartButton,),
@@ -36,6 +38,8 @@ export const ProductView = ({ productId, tenantSlug }: Props) => {
     const { data } = useSuspenseQuery(trpc.products.getOne.queryOptions({
         id: productId
     }))
+
+    const [isCopied, setIsCopied] = useState(false)
 
 
     return (
@@ -81,21 +85,24 @@ export const ProductView = ({ productId, tenantSlug }: Props) => {
 
                             </div>
                             <div className="hidden lg:flex px-6 py-4 items-center justify-center">
-                                <div className="flex items-center gap-1">
-                                    <StarRating rating={3} iconClassName="size-4" />
+                                <div className="flex items-center gap-2">
+                                    <StarRating rating={data.reviewRating} iconClassName="size-4" />
+                                    <p className="text-base font-medium">
+                                        {data.reviewCount} Ratings
+                                    </p>
                                 </div>
                             </div>
 
 
                         </div>
-                        {/* MONILE VIEW */}
+                        {/* MOBNILE VIEW */}
                         <div className="block lg:hidden px-6 py-4 items-center justify-center border-b">
-                            <div className="flex items-center gap-1">
+                            <div className="flex items-center gap-2">
 
-                                <StarRating rating={3} iconClassName="size-4" />
+                                <StarRating rating={data.reviewRating} iconClassName="size-4" />
 
                                 <p className="text-base font-medium">
-                                    {5} Ratings
+                                    {data.reviewCount} Ratings
                                 </p>
                             </div>
 
@@ -126,8 +133,16 @@ export const ProductView = ({ productId, tenantSlug }: Props) => {
 
 
 
-                                    <Button className="size-12 " variant={"elevated"} onClick={() => { }} disabled={false}>
-                                        <LinkIcon />
+                                    <Button className="size-12 " variant={"elevated"} onClick={() => {
+                                        navigator.clipboard.writeText(window.location.href)
+                                        setIsCopied(true)
+                                        toast.success("URL copied to clipboard")
+
+                                        setTimeout(() => {
+                                            setIsCopied(false)
+                                        }, 1000);
+                                    }} disabled={isCopied}>
+                                        {isCopied ? <CheckCheckIcon /> : <LinkIcon />}
                                     </Button>
 
                                 </div>
@@ -147,9 +162,9 @@ export const ProductView = ({ productId, tenantSlug }: Props) => {
                                     </h3>
                                     <div className="flex items-center gap-x-1 font-medium">
                                         <StarIcon className="size-4 fill-black" />
-                                        <p>({5})</p>
+                                        <p>({data.reviewRating})</p>
 
-                                        <p className="text-base" >{5} Ratings</p>
+                                        <p className="text-base" >{data.reviewCount} Ratings</p>
 
                                     </div>
                                 </div>
@@ -160,9 +175,9 @@ export const ProductView = ({ productId, tenantSlug }: Props) => {
                                             // using the Fragment as a component as we want to pass the key 
                                             <Fragment key={stars}>
                                                 <div className="font-medium">{stars} {stars === 1 ? "star" : "stars"}</div>
-                                                <Progress value={25} className="h-[1lh]" />
+                                                <Progress value={data.ratingDistribution[stars]} className="h-[1lh]" />
                                                 <div className="font-medium">
-                                                    {25}%
+                                                    {data.ratingDistribution[stars]}%
                                                 </div>
                                             </Fragment>
 

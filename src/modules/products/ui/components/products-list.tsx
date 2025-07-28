@@ -68,7 +68,9 @@ export const ProductList = ({ category, tenantSlug, narrowView }: Props) => {
 
                     data?.pages.flatMap((page) => page.docs).map((product) => (
 
-                        <ProductCard key={product.id} id={product.id} name={product.name} imageUrl={product.image?.url} tenantSlug={product.tenant?.slug} tenantImageUrl={product.tenant?.image?.url} reviewRating={3} reviewCount={5} price={product.price} />
+                        <ProductCard key={product.id} id={product.id} name={product.name} imageUrl={product.image?.url} tenantSlug={product.tenant?.slug} tenantImageUrl={product.tenant?.image?.url} reviewRating={product.reviewRating} reviewCount={product.reviewCount} price={product.price} />
+                        // we already set up the product review for that page.
+
                     ))
 
 

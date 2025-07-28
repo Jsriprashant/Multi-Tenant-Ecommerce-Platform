@@ -6,7 +6,7 @@ import { StarIcon } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { formatCurrency, generateTenantURL } from "@/lib/utils"
 
-// Add real ratings
+
 
 interface Props {
     id: string,

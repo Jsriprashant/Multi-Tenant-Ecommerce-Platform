@@ -4,7 +4,7 @@ import Image from "next/image"
 
 import { StarIcon } from "lucide-react"
 
-// Add real ratings
+
 
 interface Props {
     id: string,

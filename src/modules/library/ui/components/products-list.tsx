@@ -54,7 +54,7 @@ export const ProductList = () => {
 
                     data?.pages.flatMap((page) => page.docs).map((product) => (
 
-                        <ProductCard key={product.id} id={product.id} name={product.name} imageUrl={product.image?.url} tenantSlug={product.tenant?.slug} tenantImageUrl={product.tenant?.image?.url} reviewRating={3} reviewCount={5} />
+                        <ProductCard key={product.id} id={product.id} name={product.name} imageUrl={product.image?.url} tenantSlug={product.tenant?.slug} tenantImageUrl={product.tenant?.image?.url} reviewRating={product.reviewRating} reviewCount={product.reviewCount} />
                     ))
 
 
