@@ -1,8 +1,25 @@
+import { isSuperAdmin } from '@/lib/access'
+import { Tenant } from '@/payload-types'
 import type { CollectionConfig } from 'payload'
 
 
 export const Products: CollectionConfig = {
     slug: "products",
+    access: {
+
+        create: ({ req }) => {
+            if (isSuperAdmin(req.user)) return true
+
+            const tenant = req.user?.tenants?.[0]?.tenant as Tenant
+            // as the default depth is 2 so the tenant will be populated in the user data
+
+            // only let tenant create product if their stripe account details are submitted
+            return Boolean(tenant?.stripeDetailsSubmitted)
+
+        },
+        // only super admins would be able to create the tenant array.
+
+    },
     admin: {
         useAsTitle: "name"
     },
@@ -16,6 +33,7 @@ export const Products: CollectionConfig = {
         },
         {
             name: "description",
+            // change to rich text
             type: "text",
         },
         {
@@ -51,6 +69,14 @@ export const Products: CollectionConfig = {
             type: "select",
             options: ["30-day", "14-day", "7-day", "3-day", "1-day", "no-refunds"],
             defaultValue: "30-day"
+        },
+        {
+            name: "content",
+            // change to richText
+            type: "textarea",
+            admin: {
+                description: "Protected content only visible to customers after purchase. Add product documentation and downloadable files, getting started guides, and bonus materials. Supports markdown formatting."
+            }
         }
 
 

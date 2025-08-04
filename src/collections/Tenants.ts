@@ -1,7 +1,12 @@
+import { isSuperAdmin } from '@/lib/access'
 import type { CollectionConfig } from 'payload'
 
 export const Tenants: CollectionConfig = {
     slug: 'tenants',
+    access: {
+        create: ({ req }) => isSuperAdmin(req.user),
+        update: ({ req }) => isSuperAdmin(req.user),
+    },
     admin: {
         useAsTitle: 'slug',
         // this is the setting for admin dashboard,
@@ -25,6 +30,9 @@ export const Tenants: CollectionConfig = {
             type: "text",
             index: true,
             unique: true,
+            access: {
+                update: ({ req }) => isSuperAdmin(req.user)
+            },
             admin: {
                 description: "This is the subdomain of the store e.g. Jp.funroad.com"
             }
@@ -41,8 +49,13 @@ export const Tenants: CollectionConfig = {
             name: "stripeAccountId",
             type: "text",
             required: true,
+            access: {
+                // stripe account id can only be updated by super-admin
+                update: ({ req }) => isSuperAdmin(req.user)
+            },
             admin: {
-                readOnly: true
+                readOnly: true,
+                description: "Stripe account ID associated with your shop"
             }
 
         },

@@ -1,3 +1,4 @@
+import { isSuperAdmin } from '@/lib/access'
 import type { CollectionConfig } from 'payload'
 
 //This categoreies collection will be used to store the categories in the front end
@@ -6,6 +7,13 @@ export const Reviews: CollectionConfig = {
     // admin: {
     //     useAsTitle: "description"
     // },
+    access: {
+        // we have a completely different UI for reviews in librabry, so no need to show this to any user.
+        read: ({ req }) => isSuperAdmin(req.user),
+        create: ({ req }) => isSuperAdmin(req.user),
+        update: ({ req }) => isSuperAdmin(req.user),
+        delete: ({ req }) => isSuperAdmin(req.user)
+    },
 
     fields: [
         {

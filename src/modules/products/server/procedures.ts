@@ -42,6 +42,9 @@ export const productsRouter = createTRPCRouter({
                 collection: "products",
                 id: input.id,
                 depth: 2,
+                select: {
+                    content: false
+                }
             })
 
             let isPurchased = false
@@ -242,7 +245,10 @@ export const productsRouter = createTRPCRouter({
                 limit: input.limit,
                 page: input.cursor,
 
-
+                select: {
+                    content: false
+                    // so that content does not leak in the api's
+                }
 
             })
 

@@ -1,8 +1,15 @@
+import { isSuperAdmin } from '@/lib/access'
 import type { CollectionConfig } from 'payload'
 
 //This categoreies collection will be used to store the categories in the front end
 export const Categories: CollectionConfig = {
     slug: 'categories',
+    access: {
+        read: ({ req }) => isSuperAdmin(req.user),
+        create: ({ req }) => isSuperAdmin(req.user),
+        update: ({ req }) => isSuperAdmin(req.user),
+        delete: ({ req }) => isSuperAdmin(req.user)
+    },
     admin: {
         useAsTitle: "name"
     },

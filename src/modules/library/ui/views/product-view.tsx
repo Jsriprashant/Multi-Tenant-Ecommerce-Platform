@@ -47,10 +47,21 @@ export const ProductView = ({ productId }: props) => {
 
                     </div>
                     <div className="lg:col-span-5">
-                        <div className="font-medium italic text-muted-foreground">
-                            no special content
+                        {data.product.content ?
+                            <p>
+                                {data.product.content}
+                            </p>
+                            :
+                            (
+                                <div className="font-medium italic text-muted-foreground">
+                                    no special content
 
-                        </div>
+                                </div>
+                            )
+
+                        }
+
+
 
                     </div>
 
