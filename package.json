@@ -10,7 +10,8 @@
     "lint": "next lint",
     "generate-payload": "payload generate:types",
     "db:fresh": "payload migrate:fresh",
-    "db:seed": "node --loader ts-node/esm src/seed.ts"
+    "db:seed": "node --loader ts-node/esm src/seed.ts",
+    "generate-importMap":"payload generate:importmap"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",

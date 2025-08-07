@@ -92,7 +92,7 @@ export const Navbar = () => {
 
                     <Button asChild variant={"secondary"} className="bg-black text-white border-l border-t-0 border-b-0 border-r-0 px-12 h-full rounded-none hover:bg-pink-400 hover:text-black transition-colors text-lg">
                         <Link prefetch href={"/sign-up"}>
-                            Sign Up
+                            Start Selling
                         </Link>
                     </Button>
                 </div> : <div className={cn("hidden lg:flex")}>

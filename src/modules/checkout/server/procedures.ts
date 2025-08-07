@@ -5,6 +5,7 @@ import { TRPCError } from "@trpc/server";
 import type Stripe from "stripe";
 import { CheckoutMetadata, ProductMetadata } from "../types";
 import { stripe } from "@/lib/stripe";
+import { PLATFORM_FEE_PERCENT } from "@/constants";
 
 
 export const checkoutRouter = createTRPCRouter({
@@ -13,6 +14,56 @@ export const checkoutRouter = createTRPCRouter({
     // so we are going to create a new protected procedeure in src\trpc\init.ts
 
     // this base procedure can be accessed by user even if he is not loggged in
+
+    verify: protectedProcedure.mutation(async ({ ctx }) => {
+
+        const user = await ctx.db.findByID({
+            collection: "users",
+            id: ctx.session.user.id,
+            depth: 0,
+        })
+
+        if (!user) {
+            throw new TRPCError({
+                code: "NOT_FOUND",
+                message: "User could not be found"
+            })
+        }
+
+        const tenantId = user.tenants?.[0]?.tenant as string // This will be ID as the depth is 0, so the tenants will not be populated. only we will get the ids.
+
+        const tenant = await ctx.db.findByID({
+            collection: "tenants",
+            id: tenantId
+        })
+
+        if (!tenant) {
+            throw new TRPCError({
+                code: "NOT_FOUND",
+                message: "Tenant not found"
+            })
+        }
+
+        const accountLink = await stripe.accountLinks.create({
+            account: tenant.stripeAccountId,
+            refresh_url: `${process.env.NEXT_APP_URL!}/admin`,
+            return_url: `${process.env.NEXT_APP_URL!}/admin`,
+            type: "account_onboarding",
+        })
+
+        if (!accountLink.url) {
+            throw new TRPCError({
+                code: "BAD_REQUEST",
+                message: "Failed to create verification link"
+            })
+        }
+
+
+        return { url: accountLink.url }
+
+
+    }),
+
 
     purchase: protectedProcedure.input(z.object({
         productIds: z.array(z.string()).min(1),
@@ -66,6 +117,12 @@ export const checkoutRouter = createTRPCRouter({
                     message: "Tenant Not Found"
                 })
             }
+            if (!tenant.stripeDetailsSubmitted) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Tenant not allowd to sell products"
+                })
+            }
 
             // TODO: Throw Error if stripe details not submitted
 
@@ -87,6 +144,12 @@ export const checkoutRouter = createTRPCRouter({
                 }
             }))
 
+            const totalAmount = products.docs.reduce((acc, item) => acc + item.price * 100, 0)
+
+            const platformFeeAmount = Math.round(
+                totalAmount * (PLATFORM_FEE_PERCENT / 100)
+            )
+
             const checkout = await stripe.checkout.sessions.create({
                 customer_email: ctx.session.user?.email,
                 success_url: `${process.env.NEXT_APP_URL}/tenants/${input.tenantSlug}/checkout?success=true`,
@@ -99,8 +162,13 @@ export const checkoutRouter = createTRPCRouter({
                 metadata: {
                     // this is the meta data of the currently logged in customer/user who has buyed the product
                     userId: ctx.session.user?.id
-                } as CheckoutMetadata
+                } as CheckoutMetadata,
+                payment_intent_data: {
+                    application_fee_amount: platformFeeAmount
+                }
 
+            }, {
+                stripeAccount: tenant.stripeAccountId
             })
 
             if (!checkout.url) {

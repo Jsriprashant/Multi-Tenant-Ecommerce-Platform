@@ -5,7 +5,7 @@ import type { CollectionConfig } from 'payload'
 export const Categories: CollectionConfig = {
     slug: 'categories',
     access: {
-        read: ({ req }) => isSuperAdmin(req.user),
+        read: ({ req }) => Boolean(req.user),
         create: ({ req }) => isSuperAdmin(req.user),
         update: ({ req }) => isSuperAdmin(req.user),
         delete: ({ req }) => isSuperAdmin(req.user)
