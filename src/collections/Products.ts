@@ -19,6 +19,8 @@ export const Products: CollectionConfig = {
         },
         // only super admins would be able to create the tenant array.
 
+        delete: ({ req }) => isSuperAdmin(req.user)
+
     },
     admin: {
         useAsTitle: "name",
@@ -35,7 +37,7 @@ export const Products: CollectionConfig = {
         {
             name: "description",
             // change to rich text
-            type: "text",
+            type: "richText",
         },
         {
             name: "price",
@@ -74,9 +76,31 @@ export const Products: CollectionConfig = {
         {
             name: "content",
             // change to richText
-            type: "textarea",
+            type: "richText",
             admin: {
                 description: "Protected content only visible to customers after purchase. Add product documentation and downloadable files, getting started guides, and bonus materials. Supports markdown formatting."
+            }
+        },
+        {
+            name: 'isPrivate',
+            label: "Private",
+            defaultValue: false,
+            //default value was "null" or "undefined" if we did not specify it.
+
+            type: "checkbox",
+            admin: {
+                description: "Check if you dont want to store this product in the Storefront. "
+            }
+        },
+        {
+            name: 'isArchived',
+            label: "Archive",
+            defaultValue: false,
+            //default value was "null" or "undefined" if we did not specify it.
+
+            type: "checkbox",
+            admin: {
+                description: "Check if you want archive this product "
             }
         }
 

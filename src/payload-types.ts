@@ -152,6 +152,13 @@ export interface User {
   hash?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
   password?: string | null;
 }
 /**
@@ -227,7 +234,21 @@ export interface Product {
   id: string;
   tenant?: (string | null) | Tenant;
   name: string;
-  description?: string | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   price: number;
   category?: (string | null) | Category;
   tags?: (string | Tag)[] | null;
@@ -236,7 +257,29 @@ export interface Product {
   /**
    * Protected content only visible to customers after purchase. Add product documentation and downloadable files, getting started guides, and bonus materials. Supports markdown formatting.
    */
-  content?: string | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Check if you dont want to store this product in the Storefront.
+   */
+  isPrivate?: boolean | null;
+  /**
+   * Check if you want archive this product
+   */
+  isArchived?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -387,6 +430,13 @@ export interface UsersSelect<T extends boolean = true> {
   hash?: T;
   loginAttempts?: T;
   lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -433,6 +483,8 @@ export interface ProductsSelect<T extends boolean = true> {
   image?: T;
   refundPolicy?: T;
   content?: T;
+  isPrivate?: T;
+  isArchived?: T;
   updatedAt?: T;
   createdAt?: T;
 }

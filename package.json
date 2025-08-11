@@ -11,7 +11,7 @@
     "generate-payload": "payload generate:types",
     "db:fresh": "payload migrate:fresh",
     "db:seed": "node --loader ts-node/esm src/seed.ts",
-    "generate-importMap":"payload generate:importmap"
+    "generate-importMap": "payload generate:importmap"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
@@ -19,7 +19,7 @@
     "@payloadcms/next": "^3.35.1",
     "@payloadcms/payload-cloud": "^3.35.1",
     "@payloadcms/plugin-multi-tenant": "^3.42.0",
-    "@payloadcms/richtext-lexical": "^3.35.1",
+    "@payloadcms/richtext-lexical": "^3.42.0",
     "@payloadcms/ui": "^3.42.0",
     "@radix-ui/react-accordion": "^1.2.7",
     "@radix-ui/react-alert-dialog": "^1.1.10",

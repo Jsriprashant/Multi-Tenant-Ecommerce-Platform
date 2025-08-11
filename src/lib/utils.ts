@@ -17,3 +17,4 @@ export function formatCurrency(value: number | string) {
 
   }).format(Number(value))
 }
+

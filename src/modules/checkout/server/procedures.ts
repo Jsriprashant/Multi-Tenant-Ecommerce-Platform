@@ -89,6 +89,11 @@ export const checkoutRouter = createTRPCRouter({
                             "tenant.slug": {
                                 equals: input.tenantSlug
                             }
+                        },
+                        {
+                            isArchived: {
+                                not_equals: true
+                            }
                         }
                     ]
                 }
@@ -196,9 +201,20 @@ export const checkoutRouter = createTRPCRouter({
                 depth: 2, // populate the image and the categories, and after adding multi tenant pulgin it populates tenant also depth 1 will load uptill here
                 //depth 2 will load the tenamt.image
                 where: {
-                    id: {
-                        in: input.ids
-                    }
+                    and: [
+                        {
+                            id: {
+                                in: input.ids
+                            }
+                        },
+                        // doing this so that if the product is archived then 
+                        {
+                            isArchived: {
+                                not_equals: true
+                            }
+                        }
+                    ]
+
                 },
             })
 

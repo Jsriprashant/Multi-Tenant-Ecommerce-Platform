@@ -201,6 +201,9 @@ async function Layout({ children }: Props) {
 
     // await Seed();
 
+
+
+
     const queryClient = getQueryClient();
     void queryClient.prefetchQuery(trpc.categories.getMany.queryOptions())
 

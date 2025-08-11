@@ -47,6 +47,14 @@ export const productsRouter = createTRPCRouter({
                 }
             })
 
+            if (product.isArchived) {
+                throw new TRPCError({
+                    code: "NOT_FOUND",
+                    message: "Product Not found",
+                });
+
+            }
+
             let isPurchased = false
 
             if (session.user) {
@@ -148,7 +156,16 @@ export const productsRouter = createTRPCRouter({
         }))
 
         .query(async ({ ctx, input }) => {
-            const where: Where = {}
+            const where: Where = {
+                isArchived: {
+                    not_equals: true,
+                    // why not equals :false ?
+                    // because in the colleciton of products where this isArchived's default value was "null" or "undefined" if we did not specify it so null or undefined Equals false will not be true. so that's why we use not equals and specify the default value.
+                    // 1) always put default value in fields
+                    // 2) use not equals
+
+                }
+            }
 
             let sort: Sort = "-createdAt"
 
@@ -189,6 +206,12 @@ export const productsRouter = createTRPCRouter({
             if (input.tenantSlug) {
                 where["tenant.slug"] = {
                     equals: input.tenantSlug
+                }
+            } else {
+                // if we are loading products for public storefront (no tenantSlug)
+                // then make sure to not to load the products that are set to "isPrivate:true" (using reverse not_equals logic)
+                where["isPrivate"] = {
+                    not_equals: true
                 }
             }
 
