@@ -7,6 +7,7 @@ import { DEFAULT_LIMIT } from '@/constants'
 import { ProductListView } from '@/modules/products/ui/views/product-list-view'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 
+export const dynamic = "force-dynamic"
 interface Props {
     searchParams: Promise<SearchParams>
     params: Promise<{ slug: string }>

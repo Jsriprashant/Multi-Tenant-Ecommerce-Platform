@@ -6,7 +6,8 @@ import { ArrowLeftIcon } from "lucide-react"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { useTRPC } from "@/trpc/client"
 import { ReviewSidebar } from "../components/review-sidebar"
-import { RichTextRenderer } from "@/lib/RichTextConverter"
+// import { RichTextRenderer } from "@/lib/RichTextConverter"
+import { RichText } from "@payloadcms/richtext-lexical/react"
 import { Suspense } from "react"
 import { ReviewFormSkeleton } from "../components/review-form"
 
@@ -55,7 +56,7 @@ export const ProductView = ({ productId }: props) => {
                         {data.product.content ?
                             <div>
 
-                                <RichTextRenderer data={data.product.content} />
+                                <RichText data={data.product.content} />
                             </div>
 
 

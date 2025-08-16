@@ -10,6 +10,7 @@ import { getQueryClient, trpc } from '@/trpc/server'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { SearchParams } from 'nuqs'
 
+export const dynamic = "force-dynamic"
 
 interface Props {
     params: Promise<{ category: string, subcategory: string }>
