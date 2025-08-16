@@ -8,6 +8,7 @@ interface props {
     params: Promise<{ productId: string }>
 }
 
+export const dynamic = "force-dynamic"
 
 async function Page({ params }: props) {
 

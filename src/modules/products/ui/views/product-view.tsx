@@ -8,7 +8,8 @@ import { formatCurrency, generateTenantURL } from "@/lib/utils"
 import { useTRPC } from "@/trpc/client"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { CheckCheckIcon, LinkIcon, StarIcon } from "lucide-react"
-import { RichTextRenderer } from "@/lib/RichTextConverter"
+// import { RichTextRenderer } from "@/lib/RichTextConverter"
+import { RichText } from "@payloadcms/richtext-lexical/react"
 
 import Image from "next/image"
 import Link from "next/link"
@@ -111,7 +112,7 @@ export const ProductView = ({ productId, tenantSlug }: Props) => {
 
                         <div className="p-6">
                             {data.description ?
-                                <RichTextRenderer data={data.description}></RichTextRenderer>
+                                <RichText data={data.description} />
                                 :
                                 (
                                     <p className="font-medium text-muted-foreground italic" >No description Provided
