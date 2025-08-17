@@ -45,7 +45,19 @@ export const Users: CollectionConfig = {
 
 
   },
-  auth: true,
+  // On logging out from dashboard, payload does not clear the cookies, as in payload's backend code we see that, it takes in the existing cookie and then expires it.
+  // so we put the same seetings here also as we did in generate cookie 
+  // auth: true, previous code
+  auth: {
+    cookies: {
+      ...(process.env.NODE_ENV !== "development" && {
+        sameSite: "None",
+        domain: process.env.NEXT_PUBLIC_ROOT_DOMAIN,
+        secure: true
+      })
+    }
+  },
+
   fields: [
     // Email added by default
     // Add more fields as needed
