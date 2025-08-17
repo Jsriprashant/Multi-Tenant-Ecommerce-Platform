@@ -18,6 +18,7 @@ import { Config } from './payload-types'
 import { Orders } from './collections/Orders'
 import { Reviews } from './collections/Reviews'
 import { isSuperAdmin } from './lib/access'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 
 
 const filename = fileURLToPath(import.meta.url)
@@ -60,7 +61,14 @@ export default buildConfig({
       },
       userHasAccessToAllTenants: (user) => isSuperAdmin(user)
 
-    })
+    }),
     // storage-adapter-placeholder
+    vercelBlobStorage({
+      enabled: true,
+      collections: {
+        media: true
+      },
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+    })
   ],
 })
