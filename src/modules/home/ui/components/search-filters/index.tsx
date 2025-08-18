@@ -9,6 +9,7 @@ import { useTRPC } from '@/trpc/client';
 import { useParams } from "next/navigation";
 import { default_bg_color } from "@/modules/home/constants";
 import { BreadCrumbNavigation } from "./breadCrumb-navigation";
+import { useProductFilter } from "@/modules/products/hooks/product-filter-hooks";
 
 // interface props {
 //     data: CustomCategory[]
@@ -17,6 +18,8 @@ import { BreadCrumbNavigation } from "./breadCrumb-navigation";
 export const SearchFilters = () => {
     const trpc = useTRPC();
     const { data } = useSuspenseQuery(trpc.categories.getMany.queryOptions());
+    const [filters, setFilters] = useProductFilter();
+
 
     const params = useParams();
     const categoryParams = params.category as string || undefined
@@ -39,7 +42,7 @@ export const SearchFilters = () => {
         <div className="px-4 lg:px-12 py-8 border-b flex flex-col gap-4 w-full" style={{
             backgroundColor: activeCategoryColour
         }}>
-            <SearchInput />
+            <SearchInput defaultValue={filters.search} onChange={(value) => setFilters({ search: value })} />
             <div className="hidden lg:block">
                 <Categories data={data} />
             </div>
