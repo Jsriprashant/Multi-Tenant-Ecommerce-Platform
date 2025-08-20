@@ -14,7 +14,7 @@ import { Products } from './collections/Products'
 import { Tags } from './collections/Tags'
 import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
 import { Tenants } from './collections/Tenants'
-import { Config } from './payload-types'
+// import { Config } from './payload-types'
 import { Orders } from './collections/Orders'
 import { Reviews } from './collections/Reviews'
 import { isSuperAdmin } from './lib/access'
@@ -48,12 +48,14 @@ export default buildConfig({
   sharp,
   plugins: [
     payloadCloudPlugin(),
-    multiTenantPlugin<Config>({
+    multiTenantPlugin({
+      // multiTenantPlugin<Config>({
 
       collections: {
         // here we give the collection from which our tenant will be tied to
         // which means here each product will be tied to a tenant
-        products: {}
+        products: {},
+        media: {}
       },
       tenantsArrayField:
       {

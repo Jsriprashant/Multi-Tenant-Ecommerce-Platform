@@ -5,7 +5,8 @@ export const Tenants: CollectionConfig = {
     slug: 'tenants',
     access: {
         create: ({ req }) => isSuperAdmin(req.user),
-        update: ({ req }) => isSuperAdmin(req.user),
+        // update: ({ req }) => isSuperAdmin(req.user),
+        delete: ({ req }) => isSuperAdmin(req.user),
     },
     admin: {
         useAsTitle: 'slug',
@@ -65,6 +66,10 @@ export const Tenants: CollectionConfig = {
             name: "stripeDetailsSubmitted",
             type: "checkbox",
             // required: true,
+            access: {
+                // stripe account id can only be updated by super-admin
+                update: ({ req }) => isSuperAdmin(req.user)
+            },
             admin: {
                 readOnly: true,
                 description: " You cannot create products until you submit your Stripe details"

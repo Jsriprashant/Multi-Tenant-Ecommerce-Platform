@@ -6,7 +6,6 @@ import type { CollectionConfig } from 'payload'
 export const Products: CollectionConfig = {
     slug: "products",
     access: {
-
         create: ({ req }) => {
             if (isSuperAdmin(req.user)) return true
 

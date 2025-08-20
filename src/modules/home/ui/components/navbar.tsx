@@ -66,7 +66,7 @@ export const Navbar = () => {
                 </span>
             </Link>
 
-            <NavbarSidebar items={navbarItems} open={open} onOpenChange={setopen} />
+            <NavbarSidebar userData={Boolean(data?.user)} items={navbarItems} open={open} onOpenChange={setopen} />
 
 
             <div className=" pr-6 items-center justify-center gap-4 hidden lg:flex ">

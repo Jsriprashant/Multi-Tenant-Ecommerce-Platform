@@ -123,6 +123,7 @@ export const checkoutRouter = createTRPCRouter({
                     message: "Tenant Not Found"
                 })
             }
+
             if (!tenant.stripeDetailsSubmitted) {
                 throw new TRPCError({
                     code: "BAD_REQUEST",
