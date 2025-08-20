@@ -42,3 +42,4 @@ next-env.d.ts
 
 #personal
 DetailedNotes.md
+src/seed.ts

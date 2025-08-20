@@ -1,35 +1,28 @@
 import { isSuperAdmin } from '@/lib/access'
 import type { CollectionConfig } from 'payload'
-// import { tenantsArrayField } from "@payloadcms/plugin-multi-tenant"
+import { tenantsArrayField } from "@payloadcms/plugin-multi-tenant/fields"
 
 
+const defaultTenantField = tenantsArrayField({
+  tenantsArrayFieldName: "tenants",
+  tenantsCollectionSlug: "tenants",
+  tenantsArrayTenantFieldName: "tenant",
+  arrayFieldAccess: {
+    read: () => true,
+    create: ({ req }) => isSuperAdmin(req.user),
+    update: ({ req }) => isSuperAdmin(req.user),
+  },
+  tenantFieldAccess: {
+    read: () => true,
+    create: ({ req }) => isSuperAdmin(req.user),
+    update: ({ req }) => isSuperAdmin(req.user),
+  },
 
 
-// const defaultTenantField = tenantsArrayField({
-//   tenantsArrayFieldName: "tenants",
-//   tenantsCollectionSlug: "tenants",
-//   tenantsArrayTenantFieldName: "tenant",
-//   arrayFieldAccess: {
-//     read: () => true,
-//     create: () => true,
-//     update: () => true,
-//   },
-//   tenantFieldAccess: {
-//     read: () => true,
-//     create: () => true,
-//     update: () => true,
-//   },
-
-
-// })
+})
 
 export const Users: CollectionConfig = {
   slug: 'users',
-  admin: {
-    // the user without super-admin role, should not even see the user box in the dashboard
-    useAsTitle: 'email',
-    hidden: ({ user }) => !isSuperAdmin(user)
-  },
   access: {
     // only super admin has the ability to create, delete, update a new user
     // also the user who is accessing the dashboard can update details, no random user can
@@ -44,6 +37,11 @@ export const Users: CollectionConfig = {
     }
 
 
+  },
+  admin: {
+    // the user without super-admin role, should not even see the user box in the dashboard
+    useAsTitle: 'email',
+    hidden: ({ user }) => !isSuperAdmin(user)
   },
   // On logging out from dashboard, payload does not clear the cookies, as in payload's backend code we see that, it takes in the existing cookie and then expires it.
   // so we put the same seetings here also as we did in generate cookie 
@@ -83,34 +81,41 @@ export const Users: CollectionConfig = {
 
     },
     {
-      name: "tenants",
-      type: "array",
+      ...defaultTenantField,
       admin: {
-        position: "sidebar",
-      },
-      access: {
-        read: () => true,
-        create: ({ req }) => isSuperAdmin(req.user),
-        // only super admins would be able to create the tenant array.
-        update: ({ req }) => isSuperAdmin(req.user),
-      },
-      fields: [
-        {
-          name: "tenant",
-          type: "relationship",
-          relationTo: "tenants",
-          admin: {
-            position: "sidebar"
-          },
-          required: true,
-          access: {
-            read: () => true,
-            create: ({ req }) => isSuperAdmin(req.user),
-            update: ({ req }) => isSuperAdmin(req.user),
-          },
-        },
-      ],
-    }
+        ...(defaultTenantField?.admin || {}),
+        position: "sidebar"
+      }
+    },
+    // {
+    //   name: "tenants",
+    //   type: "array",
+    //   admin: {
+    //     position: "sidebar",
+    //   },
+    //   access: {
+    //     read: () => true,
+    //     create: ({ req }) => isSuperAdmin(req.user),
+    //     // only super admins would be able to create the tenant array.
+    //     update: ({ req }) => isSuperAdmin(req.user),
+    //   },
+    //   fields: [
+    //     {
+    //       name: "tenant",
+    //       type: "relationship",
+    //       relationTo: "tenants",
+    //       admin: {
+    //         position: "sidebar"
+    //       },
+    //       required: true,
+    //       access: {
+    //         read: () => true,
+    //         create: ({ req }) => isSuperAdmin(req.user),
+    //         update: ({ req }) => isSuperAdmin(req.user),
+    //       },
+    //     },
+    //   ],
+    // }
 
 
   ],

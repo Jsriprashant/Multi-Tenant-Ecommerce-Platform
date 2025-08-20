@@ -19,7 +19,7 @@ interface Props {
 
 export const BreadCrumbNavigation = ({ activeCategory, activeCategoryName, activeSubcategoryName }: Props) => {
     if (!activeCategoryName || activeCategory === "all") return null;
-    return(
+    return (
 
         <Breadcrumb>
             <BreadcrumbList>
