@@ -46,8 +46,6 @@ const navbarItems = [
     { href: "/", children: "Home" },
     { href: "/about", children: "About" },
     { href: "/contact", children: "Contact" },
-    { href: "/features", children: "features" },
-    { href: "/pricing", children: "Pricing" },
 
 ]
 

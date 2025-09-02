@@ -41,7 +41,10 @@ export const Products: CollectionConfig = {
         {
             name: "price",
             type: "number",
-            required: true
+            required: true,
+            admin: {
+                description: "The minimum price of the product must be greater than ₹50."
+            }
 
         },
         // now every single product will have a category, so we need a relation of each product to one of the categories

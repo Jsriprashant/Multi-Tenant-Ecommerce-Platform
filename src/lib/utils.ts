@@ -35,9 +35,9 @@ export function generateTenantURL(tenantSlug: string) {
 }
 
 export function formatCurrency(value: number | string) {
-  return new Intl.NumberFormat("en-us", {
+  return new Intl.NumberFormat("en-in", {
     style: "currency",
-    currency: "USD",
+    currency: "INR",
     maximumFractionDigits: 0,
 
   }).format(Number(value))
