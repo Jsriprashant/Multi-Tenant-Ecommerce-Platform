@@ -250,6 +250,9 @@ export interface Product {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * The minimum price of the product must be greater than ₹50.
+   */
   price: number;
   category?: (string | null) | Category;
   tags?: (string | Tag)[] | null;
