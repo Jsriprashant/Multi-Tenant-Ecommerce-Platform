@@ -42,4 +42,6 @@ next-env.d.ts
 
 #personal
 DetailedNotes.md
+
+# Ignore seed.ts
 src/seed.ts
