@@ -9,11 +9,19 @@ Built with **Next.js 15**, **Payload CMS**, and **Stripe**—this project is a p
 
 ## 🚀 Features
 
-- **Multi-Tenancy:** Each customer (tenant) has isolated data and experience.
-- **Role-Based Access (Planned):** Easily restrict features and data by user roles (e.g., admin, user, super-admin).
-- **API-First:** All data access is via type-safe APIs.
-- **Modern UI:** Built with Next.js App Router and React.
-- **Extensible:** Add features like Stripe payments, custom roles, and more.
+- **Multi-Tenant Architecture:**  
+Each tenant (store) has its own products, orders, and Stripe account integration.
+- **Digital Product Marketplace:**  
+Tenants can create, manage, and sell digital products.  
+Product features include rich text descriptions, images, tags, categories, refund policies, and private/archive flags.
+- **Stripe Integration:**  
+Secure checkout flow, tenant onboarding, and payment management.
+- **Role-Based Access Control:**  
+Super admins and tenants have granular permissions for creating, updating, and deleting resources.
+- **Rich Admin Dashboard:**  
+Built with Payload CMS, featuring custom collections for Tenants, Products, Categories, Orders, Reviews, Tags, and Users.
+- **Frontend:**  
+Next.js app with dynamic routing, product search, cart management (Zustand), and responsive UI components.
 
 ---
 
@@ -83,10 +91,11 @@ Visit [http://localhost:3000](http://localhost:3000) to see the app.
 
 ## 🌱 Future Improvements
 
-- **Stripe Integration:** Add payments and subscriptions per tenant.
-- **Role-Based Access:** Fine-grained permissions for users and admins.
-- **Custom Domains:** Map each tenant to their own domain.
-- **More Integrations:** Email, notifications, analytics, etc.
+- **Buy a domain** so subdomains work seamlessly in production.
+- **Add an employee layer** to review posts, images, and products created by tenants.
+- **Implement a load balancer** for better scalability.
+- **Improve website accessibility** for smoother user navigation.
+- **Extend support from digital products to physical goods** with options like quantity, size, and color.
 
 ---
 
@@ -137,5 +146,6 @@ MIT
 
 ---
 
-**Questions?**  
-Open an issue or contact the maintainer.
+## Contact
+
+For questions or support, open an issue or contact [jsriprashant567@gmail](mailto:jsriprashant567@gmail).
