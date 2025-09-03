@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { formatCurrency, generateTenantURL } from "@/lib/utils"
 import { useTRPC } from "@/trpc/client"
-import { useSuspenseQuery } from "@tanstack/react-query"
+import {useSuspenseQuery } from "@tanstack/react-query"
 import { CheckCheckIcon, LinkIcon, StarIcon } from "lucide-react"
 // import { RichTextRenderer } from "@/lib/RichTextConverter"
 import { RichText } from "@payloadcms/richtext-lexical/react"
@@ -40,6 +40,7 @@ export const ProductView = ({ productId, tenantSlug }: Props) => {
     const { data } = useSuspenseQuery(trpc.products.getOne.queryOptions({
         id: productId
     }))
+
 
     const [isCopied, setIsCopied] = useState(false)
 

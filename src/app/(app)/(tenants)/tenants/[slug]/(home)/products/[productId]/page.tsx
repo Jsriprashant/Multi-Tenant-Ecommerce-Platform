@@ -17,10 +17,10 @@ const Page = async ({ params }: Props) => {
     const { productId, slug } = await params
 
     const queryClient = getQueryClient();
-    // void queryClient.prefetchQuery(trpc.products.getOne.queryOptions({
-    //     id: productId
+    void queryClient.prefetchQuery(trpc.products.getOne.queryOptions({
+        id: productId
 
-    // }))
+    }))
     void queryClient.prefetchQuery(trpc.tenants.getOne.queryOptions({
         slug,
 
