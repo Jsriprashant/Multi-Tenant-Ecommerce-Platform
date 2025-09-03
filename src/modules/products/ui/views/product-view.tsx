@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { formatCurrency, generateTenantURL } from "@/lib/utils"
 import { useTRPC } from "@/trpc/client"
-import {useSuspenseQuery } from "@tanstack/react-query"
+import { useSuspenseQuery } from "@tanstack/react-query"
 import { CheckCheckIcon, LinkIcon, StarIcon } from "lucide-react"
 // import { RichTextRenderer } from "@/lib/RichTextConverter"
 import { RichText } from "@payloadcms/richtext-lexical/react"
@@ -72,7 +72,7 @@ export const ProductView = ({ productId, tenantSlug }: Props) => {
 
                             </div>
                             <div className="px-6 py-4 flex justify-center items-center lg:border-r">
-                                <Link href={generateTenantURL(tenantSlug)} className="flex items-center gap-2">
+                                <Link prefetch={false} href={generateTenantURL(tenantSlug)} className="flex items-center gap-2">
                                     {
                                         data.tenant.image?.url && (
                                             <Image src={data.tenant.image.url} alt={data.tenant.name} width={20} height={20} className="rounded-full border shrink-0 size-[20px]" />
