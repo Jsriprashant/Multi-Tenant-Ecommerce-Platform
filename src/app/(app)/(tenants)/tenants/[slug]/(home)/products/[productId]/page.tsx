@@ -1,10 +1,10 @@
-import {ProductViewSkeleton } from "@/modules/products/ui/views/product-view";
-import { ProductWrapper } from "@/modules/products/ui/views/product-wrapper";
+import { ProductViewSkeleton } from "@/modules/products/ui/views/product-view";
+// import { ProductWrapper } from "@/modules/products/ui/views/product-wrapper";
 import { getQueryClient, trpc } from "@/trpc/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { Suspense } from "react";
 export const dynamic = "force-dynamic"
-
+import { ProductView } from "@/modules/products/ui/views/product-view";
 
 interface Props {
     params: Promise<{ productId: string, slug: string }>
@@ -19,10 +19,10 @@ const Page = async ({ params }: Props) => {
 
     const queryClient = getQueryClient();
 
-    void queryClient.prefetchQuery(trpc.products.getOne.queryOptions({
-        id: productId
+    // void queryClient.prefetchQuery(trpc.products.getOne.queryOptions({
+    //     id: productId
 
-    }))
+    // }))
     void queryClient.prefetchQuery(trpc.tenants.getOne.queryOptions({
         slug,
 
@@ -32,7 +32,8 @@ const Page = async ({ params }: Props) => {
         <Suspense fallback={<ProductViewSkeleton />}>
 
             <HydrationBoundary state={dehydrate(queryClient)}>
-                <ProductWrapper initialProductId={productId} initialSlug={slug} />
+                {/* <ProductWrapper initialProductId={productId} initialSlug={slug} /> */}
+                <ProductView productId={productId} tenantSlug={slug} />
             </HydrationBoundary>
         </Suspense>
 
