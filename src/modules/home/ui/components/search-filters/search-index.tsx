@@ -50,7 +50,7 @@ export const SearchInput = ({ disabled, defaultValue, onChange }: props) => {
                 <Input className="pl-8" placeholder="Search Products" disabled={disabled} value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
 
             </div>
-            <Button variant={"elevated"} className="size-12 shrink-0 flex lg:hidden" onClick={() => setIsSidebarOpen(true)}>
+            <Button variant={"outline"} className="size-12 shrink-0 flex lg:hidden" onClick={() => setIsSidebarOpen(true)}>
                 <ListFilterIcon className="size-4" />
             </Button>
 
@@ -60,7 +60,7 @@ export const SearchInput = ({ disabled, defaultValue, onChange }: props) => {
 
             {
                 data?.user && (
-                    <Button asChild variant={"elevated"}>
+                    <Button asChild variant={"outline"}>
                         <Link prefetch href={"/library"}>
                             <BookmarkCheckIcon />
                             Library

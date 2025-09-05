@@ -1,4 +1,3 @@
-
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -42,4 +41,3 @@ export function formatCurrency(value: number | string) {
 
   }).format(Number(value))
 }
-

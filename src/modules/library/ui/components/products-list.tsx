@@ -65,7 +65,7 @@ export const ProductList = () => {
             <div className="flex justify-center pt-8">
                 {
                     hasNextPage && (
-                        <Button disabled={isFetchingNextPage} onClick={() => fetchNextPage()} className="font-medium disabled:opacity-50 text-base bg-white" variant={"elevated"}>
+                        <Button disabled={isFetchingNextPage} onClick={() => fetchNextPage()} className="font-medium disabled:opacity-50 text-base bg-white" variant={"outline"}>
                             Load More
                         </Button>
                     )

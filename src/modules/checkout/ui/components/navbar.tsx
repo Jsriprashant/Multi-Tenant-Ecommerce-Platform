@@ -26,7 +26,7 @@ export const Navbar = ({ slug }: Prop) => {
         <nav className="h-20 border-b font-medium bg-white">
             <div className="max-w-(--breakpoint-xl) flex mx-auto justify-between items-center h-full px-4 lg:px-12 ">
                 <p className="text-xl">Checkout</p>
-                <Button variant={"elevated"} asChild>
+                <Button variant={"outline"} asChild>
                     <Link href={`${generateTenantURL(slug)}`}>
                         Continue Shopping
                     </Link>

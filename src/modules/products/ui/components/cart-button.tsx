@@ -14,7 +14,7 @@ export const CartButton = ({ tenantSlug, productId, isPurchased }: Props) => {
 
     if (isPurchased) {
         return (
-            <Button variant={"elevated"} className="flex-1 font-medium bg-white ">
+            <Button variant={"outline"} className="flex-1 font-medium bg-white ">
                 {/* Test This out */}
                 <Link prefetch href={`${process.env.NEXT_PUBLIC_APP_URL}/library/${productId}`}>
                     View in Library
@@ -25,7 +25,7 @@ export const CartButton = ({ tenantSlug, productId, isPurchased }: Props) => {
 
     return (
 
-        <Button variant={"elevated"} className={cn("flex-1 bg-pink-400", cart.isProductInCart(productId) && "bg-white")} onClick={() => cart.toggleProduct(productId)}>
+        <Button variant={"outline"} className={cn("flex-1 bg-pink-400", cart.isProductInCart(productId) && "bg-white")} onClick={() => cart.toggleProduct(productId)}>
             {
                 cart.isProductInCart(productId) ? "Remove from cart" : "Add to cart"
             }

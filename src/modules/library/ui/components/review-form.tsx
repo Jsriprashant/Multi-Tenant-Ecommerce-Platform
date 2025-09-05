@@ -127,7 +127,7 @@ export const ReviewForm = ({ productId, initialData }: props) => {
                     )} />
                     {
                         !isPreview && (
-                            <Button variant={"elevated"} disabled={createReview.isPending || updateReview.isPending} type="submit" size={"lg"} className="bg-black text-white hover:bg-pink-400 hover:text-primary w-fit">
+                            <Button variant={"outline"} disabled={createReview.isPending || updateReview.isPending} type="submit" size={"lg"} className="bg-black text-white hover:bg-pink-400 hover:text-primary w-fit">
                                 {
                                     initialData ? "Update Review" : "Post Review"
                                 }
@@ -139,7 +139,7 @@ export const ReviewForm = ({ productId, initialData }: props) => {
 
                 {
                     isPreview && (
-                        <Button onClick={() => setIsPreview(false)} size={"lg"} type="button" variant={"elevated"} className="w-fit mt-4">
+                        <Button onClick={() => setIsPreview(false)} size={"lg"} type="button" variant={"outline"} className="w-fit mt-4">
                             Edit
                         </Button>
                     )
@@ -159,7 +159,7 @@ export const ReviewFormSkeleton = () => {
 
             <Textarea placeholder="Want to leave a written review?" disabled />
 
-            <Button variant={"elevated"} disabled type="submit" size={"lg"} className="bg-black text-white hover:bg-pink-400 hover:text-primary w-fit">
+            <Button variant={"outline"} disabled type="submit" size={"lg"} className="bg-black text-white hover:bg-pink-400 hover:text-primary w-fit">
 
             </Button>
 
