@@ -142,7 +142,7 @@ export const SignInView = () => {
 
                         )} />
 
-                        <Button type='submit' size={"lg"} variant={"elevated"} className='bg-black text-white hover:bg-pink-400 hover:text-primary' disabled={login.isPending}>
+                        <Button type='submit' size={"lg"} variant={"outline"} className='bg-black text-white hover:bg-pink-400 hover:text-primary' disabled={login.isPending}>
                             Log in
                         </Button>
 

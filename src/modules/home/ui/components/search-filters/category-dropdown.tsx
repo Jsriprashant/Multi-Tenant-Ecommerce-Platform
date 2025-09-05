@@ -53,7 +53,7 @@ export const CategoryDropdown = ({ category, isActive, isNavigationHovered }: pr
         //onClick={toggleDropdown}
         >
             <div className="relative">
-                <Button variant={"elevated"} className={cn("h-11 px-4 bg-transparent border-transparent rounded-full hover:bg-white hover:border-primary text-black", isActive && !isNavigationHovered && "bg-white border-primary", isOpen && "bg-white border-primary")}>
+                <Button variant={"outline"} className={cn("h-11 px-4 bg-transparent border-transparent rounded-full hover:bg-white hover:border-primary text-black", isActive && !isNavigationHovered && "bg-white border-primary", isOpen && "bg-white border-primary")}>
 
                     <Link href={`/${category.slug === "all" ? "" : category.slug}`}>
                         {category.name}

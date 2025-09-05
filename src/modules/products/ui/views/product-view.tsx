@@ -136,7 +136,7 @@ export const ProductView = ({ productId, tenantSlug }: Props) => {
 
 
 
-                                    <Button className="size-12 " variant={"elevated"} onClick={() => {
+                                    <Button className="size-12 " variant={"outline"} onClick={() => {
                                         navigator.clipboard.writeText(window.location.href)
                                         setIsCopied(true)
                                         toast.success("URL copied to clipboard")

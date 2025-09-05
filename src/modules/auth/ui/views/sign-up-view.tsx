@@ -134,7 +134,7 @@ export const SignUpView = () => {
 
                         )} />
 
-                        <Button type='submit' size={"lg"} variant={"elevated"} className='bg-black text-white hover:bg-pink-400 hover:text-primary' disabled={register.isPending}>
+                        <Button type='submit' size={"lg"} variant={"outline"} className='bg-black text-white hover:bg-pink-400 hover:text-primary' disabled={register.isPending}>
                             Create Account
                         </Button>
 

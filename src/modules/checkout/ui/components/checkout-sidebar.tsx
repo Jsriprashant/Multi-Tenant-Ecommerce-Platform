@@ -21,7 +21,7 @@ export const CheckoutSidebar = ({ totalPrice, onPurchase, isCancelled, disabled 
                 </p>
             </div>
             <div className="p-4 flex items-center justify-center">
-                <Button variant={"elevated"} disabled={disabled} onClick={onPurchase} size="lg" className="text-base w-full text-white bg-primary hover:bg-pink-400 hover:text-primary">
+                <Button variant={"outline"} disabled={disabled} onClick={onPurchase} size="lg" className="text-base w-full text-white bg-primary hover:bg-pink-400 hover:text-primary">
 
                     Checkout
                 </Button>
